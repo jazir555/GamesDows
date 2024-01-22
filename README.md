@@ -51,4 +51,4 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultP
 
 **Disable GamesDows Script**
 
-The Revert script reverts all changes, which resets the Windows configuration to what it was before the Enable GamesDows script was run. If the script fails to revert any of the changes, they can be manually removed. If needed, delete the Scheduled Task created in Task Scheduler called "RunDelayedExplorerStart". This script currently creates the scripts the scheduled task runs and the XML file for the scheduled task inside the default Steam Installation Directory, "C:\Program Files (x86)\Steam".
+The Revert script reverts all changes, which resets the Windows configuration to what it was before the Enable GamesDows script was run. If the script fails to revert any of the changes, they can be manually removed. If needed, delete the Scheduled Task created in Task Scheduler called "RunDelayedExplorerStart", as well as the files the Enable GamesDows script creates.
