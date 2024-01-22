@@ -1,3 +1,5 @@
+Turn your Windows Computer into a VideoGame console first, PC second!
+
 **This script is a WIP. Currently, the main functionality works as intended. Steam Big Picture launches automatically when the OS boots, then explorer starts automatically after a delay, which allows you to exit to desktop via the menu without needing to launch a shortcut for Explorer.exe first.**
 
 What remains to be fixed:
