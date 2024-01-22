@@ -45,7 +45,7 @@ Configures Windows to automatically log in with the current user account (AutoAd
 
 Sets an empty default password for automatic logon (DefaultPassword). If you have a password, please insert it into the empty quotation marks in this command: 
 
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v **DefaultPassword /t REG_SZ /d "YourPasswordGoesHere"** /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultPassword /t REG_SZ /d **"YourPasswordGoesHere"** /f
 
 6. The command "bcdedit.exe -set {globalsettings} bootuxdisabled on" disables the boot user interface (bootuxdisabled). This disables Windows Branded Boot, and therefore no Windows logo is displayed when the OS boots.
 
