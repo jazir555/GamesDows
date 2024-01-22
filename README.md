@@ -27,7 +27,7 @@ Defines paths for the Steam folder and Delayed Explorer Start script name.
 
 Creates a batch file (DelayedExplorerStart.bat) that checks if the user is logged on. If the user is logged on, it sets the shell back to Windows Explorer (explorer.exe) after a delay, allowing Steam Big Picture to launch first. 
 
-After booting directly into Steam Big Picture, explorer.exe is launched automatically so that the "Exit to Desktop" menu item in Steam Big Picture works as expected. You do not need to launch a shortcut from within Big Picture first in order to be able exit to the desktop.
+After booting directly into Steam Big Picture, explorer.exe is launched automatically so that the "Exit to Desktop" menu item in Steam Big Picture works as expected. You do not need to launch a shortcut from within Big Picture first in order to be able exit to the desktop. The menu item will work as intended after the Game Mode script is run, no additional work necessary.
 
 **3. Create a VBScript to Run the Batch File Silently:**
 
