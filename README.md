@@ -6,8 +6,8 @@ What remains to be fixed:
 
 2. Disabling the Windows welcome screen entirely. Currently the Boot logo is removed as intended, and the script is set to log the user account which ran the script in automatically. The welcome screen still remains, and will be disabled in future versions of the script.
 
-# Windows Game Mode
-The Enable Game Mode script makes Windows boot straight into Steam Big Picture without displaying any Explorer UI elements to ensure a Game Console like experience on Windows. I made this because I have a Steam Deck and I want the experience to mirror that of Steam OS as closely as possible. However, this will work on any Windows PC, the commands are not specific to the Steam Deck.
+# GamesDows
+The Enable GamesDows script makes Windows boot straight into Steam Big Picture without displaying any Explorer UI elements to ensure a Game Console like experience on Windows. I made this because I have a Steam Deck and I want the experience to mirror that of Steam OS as closely as possible. However, this will work on any Windows PC, the commands are not specific to the Steam Deck.
 
 **Here's a breakdown of what each part of the script does**:
 
@@ -47,6 +47,6 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultP
 
 6. The command "bcdedit.exe -set {globalsettings} bootuxdisabled on" disables the boot user interface (bootuxdisabled). This disables Windows Branded Boot, and therefore no Windows logo is displayed when the OS boots.
 
-**Disable Game Mode Script**
+**Disable GamesDows Script**
 
 The Revert script reverts all changes, which resets the Windows configuration to what it was before the Enable Game Mode script was run. If the script fails to revert any of the changes, they can be manually removed. If needed, delete the Scheduled Task created in Task Scheduler called "RunDelayedExplorerStart". This script currently creates the scripts the scheduled task runs and the XML file for the scheduled task inside the default Steam Installation Directory, "C:\Program Files (x86)\Steam".
