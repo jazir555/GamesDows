@@ -32,6 +32,7 @@ echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v She
 echo timeout /t 20 /nobreak ^>nul
 echo start C:\Windows\explorer.exe
 echo timeout /t 10 /nobreak ^>nul
+echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
 ) > "%SCRIPT_PATH%"
 
 
