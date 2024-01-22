@@ -1,5 +1,5 @@
 # Windows-Game-Mode
-The Enable Game Mode script makes Windows boots straight into Steam Big Picture without displaying any explorer UI elements to ensure a Game Console like experience on Windows.
+The Enable Game Mode script makes Windows boots straight into Steam Big Picture without displaying any explorer UI elements to ensure a Game Console like experience on Windows. I made this because I have a Steam Deck and I want the experience to mirror that of Steam OS. However, this will work on any Windows PC, the commands are not specific to the Steam Deck.
 
 **Here's a breakdown of what each part of the script does**:
 
