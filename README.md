@@ -6,7 +6,7 @@ What remains to be fixed:
 
 2. Disabling the Windows welcome screen entirely. Currently the Boot logo is removed as intended, and the script is set to log the user account which ran the script in automatically. The welcome screen still remains, and will be disabled in future versions of the script.
 
-3. Need to modify the batch script which starts explorer via the scheduled task to set the shell back to Big Picture once Explorer starts so that Game Mode persists between reboots. The registry key for the default shell needs to be reset to point to explorer.exe before the Explorer shell can be launched. Currently the script does not change the shell back to Big Picture after Explorer.exe is launched, which means Game Mode does not persist across reboots.
+3. Need to modify the batch script which starts explorer via the scheduled task to set the shell back to Big Picture. Once the script for starting Explorer launches, it resets the default shell back to explorer.exe. This is because the registry key for the default shell needs to be reset to point to explorer.exe before the Explorer shell can be launched. Currently the script does not change the shell back to Big Picture after Explorer.exe is launched, which means Game Mode does not persist across reboots.
 
 # Windows Game Mode
 The Enable Game Mode script makes Windows boot straight into Steam Big Picture without displaying any Explorer UI elements to ensure a Game Console like experience on Windows. I made this because I have a Steam Deck and I want the experience to mirror that of Steam OS as closely as possible. However, this will work on any Windows PC, the commands are not specific to the Steam Deck.
