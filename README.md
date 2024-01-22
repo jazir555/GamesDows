@@ -4,7 +4,7 @@ What remains to be fixed:
 
 1. Completely suppressing the taskbar when Windows Explorer automatically launches. The taskbar displays for a second when Explorer starts, which makes it appear over the Big Picture UI for a second, and then it disappears. This is not intended behavior, and it is visually distracting.
 
-2. Disabling the Windows welcome screen entirely. The Boot logo is removed, and the script is set to log the user account which ran the script in automatically.
+2. Disabling the Windows welcome screen entirely. Currently the Boot logo is removed as intended, and the script is set to log the user account which ran the script in automatically. The welcome screen still remains, and will be disabled in future versions of the script.
 
 3. Need to modify the batch script which starts explorer via the scheduled task to set the shell back to big picture once explorer starts so that Game Mode persists between reboots.
 
