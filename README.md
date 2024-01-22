@@ -36,3 +36,7 @@ Configures Windows to automatically log in with the current user account (AutoAd
 Sets an empty default password for automatic logon (DefaultPassword).
 
 6. The command "bcdedit.exe -set {globalsettings} bootuxdisabled on" disables the boot user interface (bootuxdisabled). This disables Windows Branded Boot, and therefore no Windows logo is displayed when the OS boots.
+
+**Revert Script**
+
+The Revert script reverts all changes, which resets the Windows configuration to what it was before the Enable Game Mode script was run. If the script fails to revert any of the changes, they can be manually removed. If needed, delete the Scheduled Task created in task scheduler called "RunDelayedExplorerStart". This script currently creates the scripts the scheduled task runs and the XML file for the scheduled task inside the default Steam Installation Directory, "C:\Program Files (x86)\Steam".
