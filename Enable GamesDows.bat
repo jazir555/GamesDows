@@ -118,8 +118,6 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultP
 Echo Disable the boot UI
 bcdedit.exe -set {globalsettings} bootuxdisabled on
 
-SETLOCAL ENABLEEXTENSIONS
-
 echo Disable Visual Effects
 reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v VisualEffects /t REG_DWORD /d 3 /f
 
