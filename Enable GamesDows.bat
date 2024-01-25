@@ -118,6 +118,26 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultP
 Echo Disable the boot UI
 bcdedit.exe -set {globalsettings} bootuxdisabled on
 
+@echo off
+SETLOCAL ENABLEEXTENSIONS
+
+:: Disable Visual Effects
+reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v VisualEffects /t REG_DWORD /d 3 /f
+
+:: Increase File System Performance
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem" /v NtfsDisableLastAccessUpdate /t REG_DWORD /d 1 /f
+
+:: Optimize Paging File Performance
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v DisablePagingExecutive /t REG_DWORD /d 1 /f
+
+:: Speed Up Shutdown Process
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control" /v WaitToKillServiceTimeout /t REG_SZ /d 2000 /f
+
+:: Disable Startup Delay
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /f
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v StartupDelayInMSec /t REG_DWORD /d 0 /f
+
+echo Registry modifications are complete.
 echo Steam Big Picture set as default shell.
 echo Automatic logon enabled.
 echo Boot UI disabled.
