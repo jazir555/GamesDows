@@ -118,19 +118,18 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultP
 Echo Disable the boot UI
 bcdedit.exe -set {globalsettings} bootuxdisabled on
 
-@echo off
 SETLOCAL ENABLEEXTENSIONS
 
-:: Disable Visual Effects
+echo Disable Visual Effects
 reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v VisualEffects /t REG_DWORD /d 3 /f
 
-:: Increase File System Performance
+echo Increase File System Performance
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem" /v NtfsDisableLastAccessUpdate /t REG_DWORD /d 1 /f
 
-:: Optimize Paging File Performance
+echo Optimize Paging File Performance
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v DisablePagingExecutive /t REG_DWORD /d 1 /f
 
-:: Disable Startup Delay
+echo Disable Startup Delay
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /f
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /v StartupDelayInMSec /t REG_DWORD /d 0 /f
 
