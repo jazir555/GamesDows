@@ -135,6 +135,8 @@ echo Improve Windows Explorer Process Priority
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\explorer.exe\PerfOptions" /v CpuPriorityClass /t REG_DWORD /d 3 /f
 echo Adjust Large System Cache
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v LargeSystemCache /t REG_DWORD /d 1 /f
+echo Enabling No GUI Boot
+bcdedit /set {current} quietboot on
 
 echo Registry modifications are complete.
 echo Steam Big Picture set as default shell.
