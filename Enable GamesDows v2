@@ -21,7 +21,7 @@ SET "EXPLORER_PATH=C:\Windows\explorer.exe"
 
 :: Create VBScript to run the batch file silently
 @echo off
-SET "VBS_NAME=RunSteamAsAdmin.vbs"
+SET "VBS_NAME1=RunSteamAsAdmin.vbs"
 SET "VBS_PATH1=%STEAM_FOLDER%\%VBS_NAME%"
 echo Set WshShell = CreateObject("WScript.Shell") > "%VBS_PATH1%"
 echo WshShell.Run chr(34)^&"%SCRIPT_PATH1%"^&chr(34), 0, True >> "%VBS_PATH1%"
