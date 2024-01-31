@@ -30,7 +30,15 @@ echo Set WshShell = CreateObject("WScript.Shell") > "%VBS_PATH1%"
 echo WshShell.Run chr(34)^&"%SCRIPT_PATH1%"^&chr(34), 0, True >> "%VBS_PATH1%"
 echo Set WshShell = Nothing >> "%VBS_PATH1%"
 
-echo Creating DelayedExplorerStart.bat script
+echo Creating StartSteamAsAdmin.bat script
+(
+echo @echo off
+echo Check if user is logged on
+echo query user ^| find /i "%USERNAME%" ^>nul
+echo if ERRORLEVEL 1 exit
+echo Set Steam As Admin
+echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
+) > "%SCRIPT_PATH1%"
 
 echo Create the DelayedExplorerStart.bat script in the Steam folder
 (
