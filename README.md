@@ -8,7 +8,7 @@ What remains to be fixed:
 
 2. Disabling the Windows welcome screen entirely. Currently the Boot logo is removed as intended, and the script is set to log the user account which ran the script in automatically. The welcome screen still remains, and will be disabled in future versions of the script.
 
-3. Setting Steam to start as admin (VBS script so suppress the command prompt window set as the shell at boot > batch script > batch sets steam big picture as the shell > batch launches steam as admin > delayed explorer batch script resets the shell to the VBS script.)
+3. Setting Steam to start as admin (VBS script to suppress the command prompt window set as the shell at boot > batch script > batch sets steam big picture as the shell > batch launches steam as admin > delayed explorer batch script resets the shell to the VBS script.)
 
 # GamesDows
 The Enable GamesDows script makes Windows boot straight into Steam Big Picture without displaying any Explorer UI elements to ensure a Game Console like experience on Windows. I made this because I have a Steam Deck and I want the experience to mirror that of Steam OS as closely as possible. However, this will work on any Windows PC, the commands are not specific to the Steam Deck.
