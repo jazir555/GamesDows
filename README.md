@@ -4,7 +4,7 @@ Transform your Windows Computer into a Video Game console first, PC second!
 
 What remains to be fixed:
 
-1. Completely suppressing the taskbar from appearing when Windows Explorer automatically launches in the background. The taskbar displays temporarily for ~1 second when explorer.exe launches, which makes it appear over the Big Picture UI; and then it disappears. This is not intended behavior, and it is visually distracting. Possible solutions are a script written with NIRCMD, or changing the z-order of explorer.exe temporarily via a C++ application.
+1. Completely suppressing the taskbar from appearing when Windows Explorer automatically launches in the background. The taskbar displays temporarily for ~1 second when explorer.exe launches, which makes it appear over the Big Picture UI; and then it disappears. This is not intended behavior, and it is visually distracting. Possible solutions are a script written with NIRCMD, or changing the z-order of explorer.exe temporarily via a C++ application. I'll have to do more research.
 
 2. Disabling the Windows welcome screen entirely. Currently the Boot logo is removed as intended, and the script is set to log the user account which ran the script in automatically. The welcome screen still remains, and will be disabled in future versions of the script. Going to have to write a custom C++ application to do so since there is no off the shelf way to disable the Welcome Screen on Windows 11.
 
