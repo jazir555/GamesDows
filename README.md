@@ -6,7 +6,7 @@ What remains to be fixed:
 
 1. Completely suppressing the taskbar from appearing when Windows Explorer automatically launches in the background. The taskbar displays temporarily for ~1 second when explorer.exe launches, which makes it appear over the Big Picture UI; and then it disappears. This is not intended behavior, and it is visually distracting. Potential solutions are a script written with NIRCMD, or changing the z-order of explorer.exe (or Steam) temporarily via a C++ application. I'll have to do more research.
 
-Coremeter could potentially be adapted to this for the z-order method
+Coremeter could potentially be adapted for the z-order method
 
 https://github.com/cppshane/CoreMeter
 
