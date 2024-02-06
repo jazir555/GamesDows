@@ -6,7 +6,7 @@ What remains to be fixed:
 
 1. Completely suppressing the taskbar from appearing when Windows Explorer automatically launches in the background. The taskbar displays for a second when Explorer starts, which makes it appear over the Big Picture UI temporarily for ~1 second, and then it disappears. This is not intended behavior, and it is visually distracting.
 
-2. Disabling the Windows welcome screen entirely. Currently the Boot logo is removed as intended, and the script is set to log the user account which ran the script in automatically. The welcome screen still remains, and will be disabled in future versions of the script.
+2. Disabling the Windows welcome screen entirely. Currently the Boot logo is removed as intended, and the script is set to log the user account which ran the script in automatically. The welcome screen still remains, and will be disabled in future versions of the script. Going to have to write a custom C++ application to do so since there is no off the shelf way to disable the Welcome Screen on Windows 11.
 
 3. Setting Steam to start as admin (VBS script to suppress the command prompt window set as the shell at boot > VBS script launches the batch script > batch sets steam big picture as the shell > batch launches steam as admin > delayed explorer batch script resets the shell to the VBS script so Steam launches as the default shell at boot.)
 
