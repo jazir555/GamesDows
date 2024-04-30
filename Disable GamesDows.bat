@@ -5,7 +5,7 @@ echo Reverting changes and setting default shell back to Explorer
 
 :: Reset the default shell to Explorer
 SET "EXPLORER_PATH=C:\Windows\explorer.exe"
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
+REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "C:\Windows\explorer.exe" /f
 
 :: Define the default Steam folder path
 SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
