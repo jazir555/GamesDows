@@ -2,13 +2,13 @@ Transform your Windows Computer into a Video Game console first, PC second!
 
 **This script is a WIP. Currently, the main functionality works as intended. Steam Big Picture launches automatically when the OS boots, then explorer starts automatically after a delay, which allows you to exit to desktop via the menu without needing to launch a shortcut for Explorer.exe first.**
 
-
-
 What remains to be fixed:
 
 1. Completely suppressing the taskbar from appearing when Windows Explorer automatically launches in the background. The taskbar displays temporarily for ~1 second when explorer.exe launches, which makes it appear over the Big Picture UI; and then it disappears. This is not intended behavior, and it is visually distracting. Potential solutions are a script written with NIRCMD, or changing the z-order of explorer.exe (or Steam) temporarily via a C++ application. I'll have to do more research.
 
-Coremeter could potentially be adapted for the z-order method (If that's even a viable solution, I'll have to look into it more)
+One possible solution is to make the taskbar transparent while explorer is launching, with a timer which resets it to the previous opaque setting.
+
+Another is Coremeter. Coremeter could potentially be adapted for the z-order method (If that's even a viable solution, I'll have to look into it more)
 
 https://github.com/cppshane/CoreMeter
 
