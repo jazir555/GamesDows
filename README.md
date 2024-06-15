@@ -5,7 +5,9 @@ Transform your Windows Computer into a Video Game console first, PC second!
 # GamesDows
 The Enable GamesDows script makes Windows boot straight into Steam Big Picture without displaying any Explorer UI elements to ensure a Game Console like experience on Windows. I made this because I have a Steam Deck and I want the experience to mirror that of Steam OS as closely as possible. However, this will work on any Windows PC, the commands are not specific to the Steam Deck.
 
-**Here's a breakdown of what each part of the script does**:
+**How the main functionality works: The batch script creates a VBS script to suppress the command prompt window set as the shell at boot > VBS script launches a second batch script created by the enable script run as admin > Enable batch script sets steam big picture as the shell > batch launches steam as lower privileged (so mouse and keyboard don't work on system prompts such as task manager yet, it needs to run as admin to fix that) > delayed explorer batch script resets the shell to the VBS script so Steam launches as the default shell at boot.**
+
+**Here's a detailed breakdown of what each part of the script does**:
 
 **1. Set Steam Big Picture as Default Shell:**
 
