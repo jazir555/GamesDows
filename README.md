@@ -9,6 +9,8 @@ The Enable GamesDows batch script makes Windows boot straight into Steam Big Pic
 
 After another delay once explorer.exe is started (it retains elevated permissions once started), the default shell is reset to Steam Big Picture so that it boots directly to Big Picture as expected upon reboot. 
 
+The powershell commands are run directly via the batch script, so no secondary powershell script is needed. Everything in the script is done automatically when run as admin.
+
 **Here's a detailed breakdown of what each part of the script does**:
 
 **1. Set Steam Big Picture as Default Shell:**
