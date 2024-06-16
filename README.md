@@ -60,7 +60,7 @@ What remains to be fixed:
 
 3. Setting Steam to start as admin (VBS script to suppress the command prompt window set as the shell at boot > VBS script launches the batch script > batch sets steam big picture as the shell > batch launches steam as admin > delayed explorer batch script resets the shell to the VBS script so Steam launches as the default shell at boot.)
 
-4. Disabling the Steam client update prompt which displays when Steam updates (this only occurs when the Steam Client has an update, otherwise it will not appear) before launching Big Picture.
+4. Disabling the Steam client update window which displays momentarily when Steam updates (this only occurs when the Steam Client has an update, otherwise it will not appear) before launching Big Picture.
 
 **Please let me know if you have any issues with existing functionality and I'll try to get the bugs fixed up if any arise.**
 
