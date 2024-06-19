@@ -73,7 +73,30 @@ if %errorlevel% neq 0 (
     echo Visual Studio Build Tools are already installed. >> %log_file%
 )
 
-:: Step 4: Create the C++ source file using PowerShell
+:: Step 4: Install Windows SDK
+echo Downloading Windows SDK... >> %log_file%
+echo Downloading Windows SDK...
+powershell -command "Invoke-WebRequest -Uri 'https://go.microsoft.com/fwlink/?linkid=2120843' -OutFile '%sdk_installer%'" >> %log_file% 2>&1
+if %errorlevel% neq 0 (
+    echo Failed to download Windows SDK installer. >> %log_file%
+    echo Failed to download Windows SDK installer.
+    exit /b
+)
+echo Windows SDK installer downloaded successfully. >> %log_file%
+echo Windows SDK installer downloaded successfully.
+
+echo Installing Windows SDK... >> %log_file%
+echo Installing Windows SDK...
+start /wait "" "%sdk_installer%" /Quiet /NoRestart /Features + /InstallPath "%ProgramFiles%\Windows Kits\10" >> %log_file% 2>&1
+if %errorlevel% neq 0 (
+    echo Failed to install Windows SDK. >> %log_file%
+    echo Failed to install Windows SDK.
+    exit /b
+)
+echo Windows SDK installed successfully. >> %log_file%
+echo Windows SDK installed successfully.
+
+:: Step 5: Create the C++ source file using PowerShell
 echo Creating C++ source file using PowerShell... >> %log_file%
 powershell -command "Add-Content -Path '%cpp_code%' -Value '#include <windows.h>'; Add-Content -Path '%cpp_code%' -Value 'int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)'; Add-Content -Path '%cpp_code%' -Value '{'; Add-Content -Path '%cpp_code%' -Value '    return 0;'; Add-Content -Path '%cpp_code%' -Value '}';"
 if %errorlevel% neq 0 (
@@ -84,7 +107,7 @@ if %errorlevel% neq 0 (
 )
 echo C++ source file created successfully using PowerShell. >> %log_file%
 
-:: Step 5: Compile the C++ code to create the custom executable
+:: Step 6: Compile the C++ code to create the custom executable
 echo Compiling the C++ source file... >> %log_file%
 call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x86 >> %log_file% 2>&1
 if %errorlevel% neq 0 (
@@ -102,7 +125,7 @@ if %errorlevel% neq 0 (
 )
 echo C++ source file compiled successfully. >> %log_file%
 
-:: Step 6: Ensure the custom executable was created
+:: Step 7: Ensure the custom executable was created
 if not exist "%src_path%%exe_name%" (
     echo Custom executable %exe_name% not found in %src_path%. >> %log_file%
     echo Custom executable %exe_name% not found in %src_path%.
@@ -112,7 +135,7 @@ if not exist "%src_path%%exe_name%" (
 echo Custom executable found. >> %log_file%
 pause
 
-:: Step 7: Backup the original logonui.exe
+:: Step 8: Backup the original logonui.exe
 echo Backing up the original logonui.exe... >> %log_file%
 copy "%dst_path%\logonui.exe" "%dst_path%\%backup_logonui%" >> %log_file% 2>&1
 if %errorlevel% neq 0 (
@@ -124,7 +147,7 @@ if %errorlevel% neq 0 (
 echo Original logonui.exe backed up successfully. >> %log_file%
 pause
 
-:: Step 8: Replace the original logonui.exe with the custom executable
+:: Step 9: Replace the original logonui.exe with the custom executable
 echo Replacing the original logonui.exe with the custom executable... >> %log_file%
 copy "%src_path%%exe_name%" "%dst_path%\logonui.exe" >> %log_file% 2>&1
 if %errorlevel% neq 0 (
