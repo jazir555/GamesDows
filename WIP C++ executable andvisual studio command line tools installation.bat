@@ -33,21 +33,19 @@ if not exist "%temp_dir%" (
 icacls "%temp_dir%" /grant Everyone:(F) >> %log_file% 2>&1
 echo Temp directory permissions set. >> %log_file%
 
-:: Step 2: Check for .NET Framework Installation
-echo Checking for .NET Framework installation... >> %log_file%
-dism /online /get-features | findstr /i /c:"NetFx3" >nul
+:: Step 2: Check for Visual Studio Build Tools
+echo Checking for Visual Studio Build Tools... >> %log_file%
+reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Installing .NET Framework... >> %log_file%
-    dism /online /enable-feature /featurename:NetFx3 /All /LimitAccess /NoRestart >> %log_file% 2>&1
+    echo Visual Studio Build Tools not found. Installing... >> %log_file%
+    powershell -command "Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile %installer%; Start-Process -Wait -FilePath %installer% -ArgumentList '--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --passive --norestart'; Remove-Item -Force %installer%" >> %log_file% 2>&1
     if %errorlevel% neq 0 (
-        echo Failed to install .NET Framework. >> %log_file%
-        echo Failed to install .NET Framework.
+        echo Failed to install Visual Studio Build Tools. >> %log_file%
+        echo Failed to install Visual Studio Build Tools.
         pause
         exit /b
     )
-    echo .NET Framework installed successfully. >> %log_file%
-) else (
-    echo .NET Framework is already installed. >> %log_file%
+    echo Visual Studio Build Tools installed successfully. >> %log_file%
 )
 
 :: Step 3: Check for Visual Studio Build Tools
