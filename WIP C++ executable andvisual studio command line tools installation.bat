@@ -96,6 +96,32 @@ if %errorlevel% neq 0 (
 echo Windows SDK installed successfully. >> %log_file%
 echo Windows SDK installed successfully.
 
+@echo off
+
+:: Install Visual C++ Redist
+echo Downloading Visual C++ Redistributable installers...
+
+:: Create a temporary directory to store the installers
+set "TMP_DIR=%TEMP%\vcredist_installers"
+mkdir "%TMP_DIR%"
+
+:: Download the latest Visual C++ Redistributable installers
+bitsadmin /transfer "VC2015-2022 x64" https://aka.ms/vs/17/release/vc_redist.x64.exe "%TMP_DIR%\VC_redist.x64.exe"
+bitsadmin /transfer "VC2015-2022 x86" https://aka.ms/vs/17/release/vc_redist.x86.exe "%TMP_DIR%\VC_redist.x86.exe"
+
+echo Installing Visual C++ Redistributable packages...
+
+:: Install Visual C++ 2015-2022 Redistributable
+start /wait "%TMP_DIR%\VC_redist.x64.exe" /install /quiet /norestart
+start /wait "%TMP_DIR%\VC_redist.x86.exe" /install /quiet /norestart
+
+echo Visual C++ Redistributable packages installed successfully!
+
+:: Clean up the temporary directory
+rmdir /s /q "%TMP_DIR%"
+
+pause
+
 :: Step 5: Create the C++ source file using PowerShell
 echo Creating C++ source file using PowerShell... >> %log_file%
 powershell -command "Add-Content -Path '%cpp_code%' -Value '#include <windows.h>'; Add-Content -Path '%cpp_code%' -Value 'int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)'; Add-Content -Path '%cpp_code%' -Value '{'; Add-Content -Path '%cpp_code%' -Value '    return 0;'; Add-Content -Path '%cpp_code%' -Value '}';"
