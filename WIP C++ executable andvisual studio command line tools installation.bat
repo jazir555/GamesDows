@@ -31,13 +31,39 @@ if not exist "%temp_dir%" (
     mkdir "%temp_dir%"
 )
 icacls "%temp_dir%" /grant Everyone:(F) >> %log_file% 2>&1
+echo Temp directory permissions set. >> %log_file%
 
-:: Step 2: Check for Visual Studio Build Tools
+:: Step 2: Check for .NET Framework Installation
+echo Checking for .NET Framework installation... >> %log_file%
+dism /online /get-features | findstr /i /c:"NetFx3" >nul
+if %errorlevel% neq 0 (
+    echo Installing .NET Framework... >> %log_file%
+    dism /online /enable-feature /featurename:NetFx3 /All /LimitAccess /NoRestart >> %log_file% 2>&1
+    if %errorlevel% neq 0 (
+        echo Failed to install .NET Framework. >> %log_file%
+        echo Failed to install .NET Framework.
+        pause
+        exit /b
+    )
+    echo .NET Framework installed successfully. >> %log_file%
+) else (
+    echo .NET Framework is already installed. >> %log_file%
+)
+
+:: Step 3: Check for Visual Studio Build Tools
 echo Checking for Visual Studio Build Tools... >> %log_file%
 reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Visual Studio Build Tools not found. Installing... >> %log_file%
-    powershell -command "Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile %installer%; Start-Process -Wait -FilePath %installer% -ArgumentList '--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --passive --norestart'; Remove-Item -Force %installer%" >> %log_file% 2>&1
+    echo Visual Studio Build Tools not found. Downloading... >> %log_file%
+    powershell -command "Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile %installer%" >> %log_file% 2>&1
+    if %errorlevel% neq 0 (
+        echo Failed to download Visual Studio Build Tools installer. >> %log_file%
+        echo Failed to download Visual Studio Build Tools installer.
+        pause
+        exit /b
+    )
+    echo Running Visual Studio Build Tools installer... >> %log_file%
+    start /wait "" "%installer%" --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --passive --norestart >> %log_file% 2>&1
     if %errorlevel% neq 0 (
         echo Failed to install Visual Studio Build Tools. >> %log_file%
         echo Failed to install Visual Studio Build Tools.
@@ -45,9 +71,11 @@ if %errorlevel% neq 0 (
         exit /b
     )
     echo Visual Studio Build Tools installed successfully. >> %log_file%
+) else (
+    echo Visual Studio Build Tools are already installed. >> %log_file%
 )
 
-:: Step 3: Create the C++ source file using PowerShell
+:: Step 4: Create the C++ source file using PowerShell
 echo Creating C++ source file using PowerShell... >> %log_file%
 powershell -command "Add-Content -Path '%cpp_code%' -Value '#include <windows.h>'; Add-Content -Path '%cpp_code%' -Value 'int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)'; Add-Content -Path '%cpp_code%' -Value '{'; Add-Content -Path '%cpp_code%' -Value '    return 0;'; Add-Content -Path '%cpp_code%' -Value '}';"
 if %errorlevel% neq 0 (
@@ -58,7 +86,7 @@ if %errorlevel% neq 0 (
 )
 echo C++ source file created successfully using PowerShell. >> %log_file%
 
-:: Step 4: Compile the C++ code to create the custom executable
+:: Step 5: Compile the C++ code to create the custom executable
 echo Compiling the C++ source file... >> %log_file%
 call "%ProgramFiles(x86)%\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat" x86 >> %log_file% 2>&1
 if %errorlevel% neq 0 (
@@ -76,7 +104,7 @@ if %errorlevel% neq 0 (
 )
 echo C++ source file compiled successfully. >> %log_file%
 
-:: Step 5: Ensure the custom executable was created
+:: Step 6: Ensure the custom executable was created
 if not exist "%src_path%%exe_name%" (
     echo Custom executable %exe_name% not found in %src_path%. >> %log_file%
     echo Custom executable %exe_name% not found in %src_path%.
@@ -86,7 +114,7 @@ if not exist "%src_path%%exe_name%" (
 echo Custom executable found. >> %log_file%
 pause
 
-:: Step 6: Backup the original logonui.exe
+:: Step 7: Backup the original logonui.exe
 echo Backing up the original logonui.exe... >> %log_file%
 copy "%dst_path%\logonui.exe" "%dst_path%\%backup_logonui%" >> %log_file% 2>&1
 if %errorlevel% neq 0 (
@@ -98,7 +126,7 @@ if %errorlevel% neq 0 (
 echo Original logonui.exe backed up successfully. >> %log_file%
 pause
 
-:: Step 7: Replace the original logonui.exe with the custom executable
+:: Step 8: Replace the original logonui.exe with the custom executable
 echo Replacing the original logonui.exe with the custom executable... >> %log_file%
 copy "%src_path%%exe_name%" "%dst_path%\logonui.exe" >> %log_file% 2>&1
 if %errorlevel% neq 0 (
