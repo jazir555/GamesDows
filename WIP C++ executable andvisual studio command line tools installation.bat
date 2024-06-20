@@ -123,7 +123,7 @@ echo Checking for Visual Studio Build Tools... >> %log_file%
 reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" >nul 2>&1
 if %errorlevel% neq 0 (
     echo Visual Studio Build Tools not found. Downloading... >> %log_file%
-    powershell -command "Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile %installer%" >> %log_file% 2>&1
+    powershell -Command "$installer='%temp_dir%\vs_buildtools.exe'; Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile $installer; Start-Process -Wait -FilePath $installer -ArgumentList '--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --passive --norestart'; Remove-Item -Force $installer"
     if %errorlevel% neq 0 (
         echo Failed to download Visual Studio Build Tools installer. >> %log_file%
         echo Failed to download Visual Studio Build Tools installer.
