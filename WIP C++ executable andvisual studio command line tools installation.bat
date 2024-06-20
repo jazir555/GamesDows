@@ -33,45 +33,18 @@ if not exist "%temp_dir%" (
 icacls "%temp_dir%" /grant Everyone:(F) >> %log_file% 2>&1
 echo Temp directory permissions set. >> %log_file%
 
-:: Step 2: Check for Visual Studio Build Tools
-echo Checking for Visual Studio Build Tools... >> %log_file%
-reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" >nul 2>&1
+:: Step 2: Install .NET Framework 4.8 (NetFx4-AdvSrvs)
+echo Installing .NET Framework 4.8 (NetFx4-AdvSrvs)... >> %log_file%
+echo Installing .NET Framework 4.8 (NetFx4-AdvSrvs)...
+dism /online /enable-feature /featurename:NetFx4-AdvSrvs /All /NoRestart >> %log_file% 2>&1
+echo DISM command exit code: %errorlevel% >> %log_file%
 if %errorlevel% neq 0 (
-    echo Visual Studio Build Tools not found. Installing... >> %log_file%
-    powershell -command "Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile %installer%; Start-Process -Wait -FilePath %installer% -ArgumentList '--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --passive --norestart'; Remove-Item -Force %installer%" >> %log_file% 2>&1
-    if %errorlevel% neq 0 (
-        echo Failed to install Visual Studio Build Tools. >> %log_file%
-        echo Failed to install Visual Studio Build Tools.
-        pause
-        exit /b
-    )
-    echo Visual Studio Build Tools installed successfully. >> %log_file%
+    echo Failed to install .NET Framework 4.8 (NetFx4-AdvSrvs). >> %log_file%
+    echo Failed to install .NET Framework 4.8 (NetFx4-AdvSrvs). Check the log for details: %log_file%
+    exit /b
 )
-
-:: Step 3: Check for Visual Studio Build Tools
-echo Checking for Visual Studio Build Tools... >> %log_file%
-reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" >nul 2>&1
-if %errorlevel% neq 0 (
-    echo Visual Studio Build Tools not found. Downloading... >> %log_file%
-    powershell -command "Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile %installer%" >> %log_file% 2>&1
-    if %errorlevel% neq 0 (
-        echo Failed to download Visual Studio Build Tools installer. >> %log_file%
-        echo Failed to download Visual Studio Build Tools installer.
-        pause
-        exit /b
-    )
-    echo Running Visual Studio Build Tools installer... >> %log_file%
-    start /wait "" "%installer%" --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --passive --norestart >> %log_file% 2>&1
-    if %errorlevel% neq 0 (
-        echo Failed to install Visual Studio Build Tools. >> %log_file%
-        echo Failed to install Visual Studio Build Tools.
-        pause
-        exit /b
-    )
-    echo Visual Studio Build Tools installed successfully. >> %log_file%
-) else (
-    echo Visual Studio Build Tools are already installed. >> %log_file%
-)
+echo .NET Framework 4.8 (NetFx4-AdvSrvs) installed successfully. >> %log_file%
+echo .NET Framework 4.8 (NetFx4-AdvSrvs) installed successfully.
 
 :: Step 4: Install Windows SDK
 echo Downloading Windows SDK... >> %log_file%
@@ -121,6 +94,31 @@ echo Visual C++ Redistributable packages installed successfully!
 rmdir /s /q "%TMP_DIR%"
 
 pause
+
+:: Step 3: Check for Visual Studio Build Tools
+echo Checking for Visual Studio Build Tools... >> %log_file%
+reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Visual Studio Build Tools not found. Downloading... >> %log_file%
+    powershell -command "Invoke-WebRequest -Uri https://aka.ms/vs/16/release/vs_buildtools.exe -OutFile %installer%" >> %log_file% 2>&1
+    if %errorlevel% neq 0 (
+        echo Failed to download Visual Studio Build Tools installer. >> %log_file%
+        echo Failed to download Visual Studio Build Tools installer.
+        pause
+        exit /b
+    )
+    echo Running Visual Studio Build Tools installer... >> %log_file%
+    start /wait "" "%installer%" --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --passive --norestart >> %log_file% 2>&1
+    if %errorlevel% neq 0 (
+        echo Failed to install Visual Studio Build Tools. >> %log_file%
+        echo Failed to install Visual Studio Build Tools.
+        pause
+        exit /b
+    )
+    echo Visual Studio Build Tools installed successfully. >> %log_file%
+) else (
+    echo Visual Studio Build Tools are already installed. >> %log_file%
+)
 
 :: Step 5: Create the C++ source file using PowerShell
 echo Creating C++ source file using PowerShell... >> %log_file%
