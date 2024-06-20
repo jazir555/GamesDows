@@ -2,6 +2,8 @@ Transform your Windows Computer into a Video Game console first, PC second!
 
 **This script is a WIP. Currently, the main functionality works as intended. Steam Big Picture launches automatically when the OS boots, then explorer starts automatically after a delay, which allows you to exit to desktop via the menu without needing to launch a shortcut for Explorer.exe first.**
 
+**Note: Steam must be installed and you must be signed in before running the script.**
+
 # GamesDows
 The Enable GamesDows batch script makes Windows boot straight into Steam Big Picture without displaying any Explorer UI elements to ensure a Game Console like experience on Windows. I made this because I have a Steam Deck and I want the experience to mirror that of Steam OS as closely as possible. However, this will work on any Windows PC, the commands are not specific to the Steam Deck.
 
