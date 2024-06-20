@@ -95,6 +95,29 @@ rmdir /s /q "%TMP_DIR%"
 
 pause
 
+:: Step 6: Download and Install Visual Studio Community Edition
+echo Downloading Visual Studio Community Edition... >> %log_file%
+echo Downloading Visual Studio Community Edition...
+powershell -command "Invoke-WebRequest -Uri 'https://aka.ms/vs/16/release/vs_community.exe' -OutFile '%vs_community_installer%'" >> %log_file% 2>&1
+if %errorlevel% neq 0 (
+    echo Failed to download Visual Studio Community installer. >> %log_file%
+    echo Failed to download Visual Studio Community installer.
+    exit /b
+)
+echo Visual Studio Community installer downloaded successfully. >> %log_file%
+echo Visual Studio Community installer downloaded successfully.
+
+echo Installing Visual Studio Community Edition... >> %log_file%
+echo Installing Visual Studio Community Edition...
+start /wait "" "%vs_community_installer%" --add Microsoft.VisualStudio.Workload.CoreEditor --includeRecommended --passive --norestart --log %vs_install_log% --loglevel verbose
+if %errorlevel% neq 0 (
+    echo Failed to install Visual Studio Community. Check the install log for details: %vs_install_log% >> %log_file%
+    echo Failed to install Visual Studio Community. Check the install log for details: %vs_install_log%
+    exit /b
+)
+echo Visual Studio Community installed successfully. >> %log_file%
+echo Visual Studio Community installed successfully.
+
 :: Step 3: Check for Visual Studio Build Tools
 echo Checking for Visual Studio Build Tools... >> %log_file%
 reg query "HKLM\SOFTWARE\Microsoft\VisualStudio\SxS\VS7" >nul 2>&1
