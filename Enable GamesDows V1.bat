@@ -1,31 +1,13 @@
 @echo off
-SETLOCAL EnableExtensions EnableDelayedExpansion
-
-:: Define paths and parameters
-SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
-SET "STEAM_PATH=%STEAM_FOLDER%\Steam.exe"
-SET "STEAM_ARGS=-bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
-SET "EXPLORER_PATH=C:\Windows\explorer.exe"
-SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
-SET "VALUE_NAME=Shell"
-SET "SCRIPT_NAME=DelayedExplorerStart.bat"
-SET "SCRIPT_PATH=%STEAM_FOLDER%\%SCRIPT_NAME%"
+SETLOCAL EnableExtensions
 
 echo Setting Steam Big Picture as default shell
 
-:: Set Steam Big Picture as the default shell
-REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "\"%STEAM_PATH%\" %STEAM_ARGS%" /f
-
-:: Verify if the registry was set correctly
-REG QUERY "%KEY_NAME%" /v %VALUE_NAME%
-IF NOT "%ERRORLEVEL%"=="0" (
-    echo Failed to set Steam as the default shell.
-    pause
-    exit /b 1
-)
-
-echo Steam set as default shell successfully:
-REG QUERY "%KEY_NAME%" /v %VALUE_NAME%
+echo Set Steam Big Picture as the default shell
+SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+SET "VALUE_NAME=Shell"
+SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
+REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%STEAM_PATH%" /f
 
 
 @echo off
@@ -49,7 +31,7 @@ echo Set Shell back to Explorer
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo timeout /t 20 /nobreak ^>nul
 echo start C:\Windows\explorer.exe
-echo timeout /t 5 /nobreak ^>nul
+echo timeout /t 10 /nobreak ^>nul
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
 ) > "%SCRIPT_PATH%"
 
@@ -74,7 +56,7 @@ IF EXIST "%XML_PATH%" DEL "%XML_PATH%"
 
 (
 echo ^<?xml version="1.0" encoding="UTF-16"?^>
-echo ^<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"^>
+echo ^<Task version="1.4" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"^>
 echo   ^<RegistrationInfo^>
 echo     ^<Date^>2020-01-01T00:00:00^</Date^>
 echo     ^<Author^>"%USERNAME%"^</Author^>
