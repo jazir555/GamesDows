@@ -1,5 +1,6 @@
 @echo off
 SETLOCAL EnableExtensions
+
 echo Setting Steam Big Picture as default shell
 
 echo Set Steam Big Picture as the default shell
