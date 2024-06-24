@@ -26,10 +26,6 @@ IF EXIST "%XML_PATH%" DEL "%XML_PATH%"
 :: Delete the scheduled task
 schtasks /delete /tn "RunDelayedExplorerStart" /f
 
-:: Disable automatic logon
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoAdminLogon /t REG_SZ /d 0 /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultPassword /f
-
 :: Enable the boot UI
 bcdedit.exe -set {globalsettings} bootuxdisabled off
 
