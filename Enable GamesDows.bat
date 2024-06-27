@@ -16,7 +16,7 @@ SETLOCAL EnableExtensions EnableDelayedExpansion
 echo Define the default Steam folder path and script names
 SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
 SET "SCRIPT_NAME=DelayedExplorerStart.bat"
-SET "SCRIPT_PATH=%STEAM_FOLDER%\%SCRIPT_NAME%"
+SET "SCRIPT_PATH=%USERPROFILE%\Documents\GamesDows_Scripts\%SCRIPT_NAME%"
 SET "EXPLORER_PATH=C:\Windows\explorer.exe"
 
 echo Creating DelayedExplorerStart.bat script
