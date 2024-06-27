@@ -21,7 +21,7 @@ SET "EXPLORER_PATH=C:\Windows\explorer.exe"
 
 echo Creating DelayedExplorerStart.bat script
 
-echo Create the DelayedExplorerStart.bat script in the Steam folder
+echo Create the DelayedExplorerStart.bat script in the Script folder
 (
 echo @echo off
 echo Check if user is logged on
