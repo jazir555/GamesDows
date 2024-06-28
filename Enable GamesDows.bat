@@ -43,13 +43,13 @@ echo Creating RunBatchSilently.vbs script
 :: Create VBScript to run the batch file silently
 @echo off
 SET "VBS_NAME=RunBatchSilently.vbs"
-SET "VBS_PATH=%STEAM_FOLDER%\%VBS_NAME%"
+SET "VBS_PATH=%SCRIPT_PATH%\%VBS_NAME%"
 echo Set WshShell = CreateObject("WScript.Shell") > "%VBS_PATH%"
 echo WshShell.Run chr(34)^&"%SCRIPT_PATH%"^&chr(34), 0, True >> "%VBS_PATH%"
 echo Set WshShell = Nothing >> "%VBS_PATH%"
 
 echo Create XML file for the scheduled task
-SET XML_PATH=%STEAM_FOLDER%\DelayedExplorerStartTask.xml
+SET XML_PATH=%SCRIPT_PATH%\DelayedExplorerStartTask.xml
 
 echo Delete the existing XML file if it exists
 IF EXIST "%XML_PATH%" DEL "%XML_PATH%"
