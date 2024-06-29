@@ -6,7 +6,7 @@ echo Setting Steam Big Picture as default shell
 echo Set Steam Big Picture as the default shell
 SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
-SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -silent -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
+SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%STEAM_PATH%" /f
 
 
@@ -128,46 +128,8 @@ reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v VisualEffects /t REG_DWORD 
 echo Increase File System Performance
 reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem" /v NtfsDisableLastAccessUpdate /t REG_DWORD /d 1 /f
 
-@echo off
-
-REM Disable Fast Startup to ensure changes take effect
-powercfg -h off
-
-REM Disable the lock screen (effective for Enterprise/Education)
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen /t REG_DWORD /d 1 /f
-
-REM Set the logon background to black by setting a custom background
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableLogonBackgroundImage /t REG_DWORD /d 1 /f
-
-REM Create the backgrounds folder if it doesn't exist
-if not exist "C:\Windows\System32\oobe\info\backgrounds" (
-    mkdir "C:\Windows\System32\oobe\info\backgrounds"
-)
-
-REM Generate a black image using PowerShell
-powershell -command "Add-Type -AssemblyName System.Drawing; $width = 1920; $height = 1080; $bitmap = New-Object System.Drawing.Bitmap $width, $height; $graphics = [System.Drawing.Graphics]::FromImage($bitmap); $black = [System.Drawing.Brushes]::Black; $graphics.FillRectangle($black, 0, 0, $width, $height); $bitmap.Save('C:\Windows\System32\oobe\info\backgrounds\backgroundDefault.jpg', [System.Drawing.Imaging.ImageFormat]::Jpeg); $graphics.Dispose(); $bitmap.Dispose();"
-
-REM Set the custom black background image for the lock screen
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v LockScreenImage /t REG_SZ /d "C:\Windows\System32\oobe\info\backgrounds\backgroundDefault.jpg" /f
-
-REM Do not display last signed-in user name
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DontDisplayLastUserName /t REG_DWORD /d 1 /f
-
-REM Do not display the username and other information during sign-in
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DontDisplayLockedUserId /t REG_DWORD /d 3 /f
-
-REM Disable Windows animations during sign-in
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableStatusMessages /t REG_DWORD /d 1 /f
-
-REM Disable verbose status messages
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v VerboseStatus /t REG_DWORD /d 0 /f
-
-REM Disable the Welcome screen and reduce animation delay
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DelayedDesktopSwitchTimeout /t REG_DWORD /d 0 /f
-
-REM Disable lock screen transitions
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableLockScreenAppNotifications /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableLogonUIAnimations /t REG_DWORD /d 1 /f
+echo Optimize Paging File Performance
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v DisablePagingExecutive /t REG_DWORD /d 1 /f
 
 echo Disable Startup Delay
 reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Serialize" /f
