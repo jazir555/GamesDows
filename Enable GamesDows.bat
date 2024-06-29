@@ -17,6 +17,7 @@ echo Define the default Steam folder path and script names
 SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
 SET "SCRIPT_NAME=DelayedExplorerStart.bat"
 SET "SCRIPT_PATH=%USERPROFILE%\Documents\GamesDows_Scripts\%SCRIPT_NAME%"
+SET "SCRIPT_FOLDER=C:\GamesDows"
 SET "EXPLORER_PATH=C:\Windows\explorer.exe"
 
 echo Creating DelayedExplorerStart.bat script
@@ -33,7 +34,7 @@ echo timeout /t 15 /nobreak ^>nul
 echo start C:\Windows\explorer.exe
 echo timeout /t 10 /nobreak ^>nul
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
-) > "%SCRIPT_PATH%"
+) > "%SCRIPT_%"
 
 
 echo %VBS_PATH% 
@@ -43,13 +44,13 @@ echo Creating RunBatchSilently.vbs script
 :: Create VBScript to run the batch file silently
 @echo off
 SET "VBS_NAME=RunBatchSilently.vbs"
-SET "VBS_PATH=%SCRIPT_PATH%\%VBS_NAME%"
+SET "VBS_PATH=%SCRIPT_FOLDER%\%VBS_NAME%"
 echo Set WshShell = CreateObject("WScript.Shell") > "%VBS_PATH%"
-echo WshShell.Run chr(34)^&"%SCRIPT_PATH%"^&chr(34), 0, True >> "%VBS_PATH%"
+echo WshShell.Run chr(34)^&"%SCRIPT_FOLDER%"^&chr(34), 0, True >> "%VBS_PATH%"
 echo Set WshShell = Nothing >> "%VBS_PATH%"
 
 echo Create XML file for the scheduled task
-SET XML_PATH="%SCRIPT_PATH%\DelayedExplorerStartTask.xml"
+SET XML_PATH="%SCRIPT_FOLDER%\DelayedExplorerStartTask.xml"
 
 echo Delete the existing XML file if it exists
 IF EXIST "%XML_PATH%" DEL "%XML_PATH%"
