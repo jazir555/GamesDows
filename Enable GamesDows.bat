@@ -142,9 +142,6 @@ reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Mem
 echo Enabling No GUI Boot
 bcdedit /set {current} quietboot on
 
-PowerShell -Command "Enable-WindowsOptionalFeature -Online -FeatureName 'DeviceLockdown' -All"
-PowerShell -Command "Enable-WindowsOptionalFeature -Online -FeatureName 'Custom Logon' -All"
-
 echo Registry modifications are complete.
 echo Steam Big Picture set as default shell.
 echo Automatic logon enabled.
