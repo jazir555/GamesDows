@@ -30,6 +30,7 @@ SET "SCRIPT_NAME=DelayedExplorerStart.bat"
 SET "SCRIPT_FOLDER=C:\GamesDows"
 SET "SCRIPT_PATH=%SCRIPT_FOLDER%\%SCRIPT_NAME%"
 SET "EXPLORER_PATH=C:\Windows\explorer.exe"
+SET XML_PATH="%SCRIPT_FOLDER%\DelayedExplorerStartTask.xml"
 
 echo Creating DelayedExplorerStart.bat script
 
