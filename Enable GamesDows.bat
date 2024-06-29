@@ -1,6 +1,17 @@
 @echo off
 SETLOCAL EnableExtensions
 
+echo Create the script folder if it doesn't exist
+SET "SCRIPT_FOLDER=C:\GamesDows"
+if not exist "%SCRIPT_FOLDER%" (
+    mkdir "%SCRIPT_FOLDER%"
+    if %errorlevel% neq 0 (
+        echo Failed to create script folder: %SCRIPT_FOLDER%
+        pause
+        exit /b 1
+    )
+)
+
 echo Setting Steam Big Picture as default shell
 
 echo Set Steam Big Picture as the default shell
