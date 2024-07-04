@@ -4,6 +4,8 @@ Transform your Windows Computer into a Video Game console first, PC second!
 
 **Note: Steam must be installed, you must be signed in to Steam, and finally the Steam Autostart entry in task manager must be disabled/deleted before running the script.**
 
+**This script must be run as admin!**
+
 # GamesDows
 The Enable GamesDows batch script makes Windows boot straight into Steam Big Picture without displaying any Explorer UI elements to ensure a Game Console like experience on Windows. I made this because I have a Steam Deck and I want the experience to mirror that of Steam OS as closely as possible. However, this will work on any Windows PC, the commands are not specific to the Steam Deck.
 
