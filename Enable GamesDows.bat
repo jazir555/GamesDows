@@ -110,11 +110,6 @@ echo Delayed Explorer start script and VBScript created in Steam folder.
 echo Scheduled Task added to run the script at logon.
 echo XML file for Scheduled Task created.
 
-echo Enable automatic logon
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoAdminLogon /t REG_SZ /d 1 /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultUserName /t REG_SZ /d "%USERNAME%" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultPassword /t REG_SZ /d "" /f
-
 echo Disable the boot UI
 bcdedit.exe -set {globalsettings} bootuxdisabled on
 
