@@ -1,5 +1,16 @@
 @echo off
 SETLOCAL EnableExtensions EnableDelayedExpansion
+SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
+SET "SCRIPT_NAME=DelayedExplorerStart.bat"
+SET "SCRIPT_PATH=%STEAM_FOLDER%\%SCRIPT_NAME%"
+SET "EXPLORER_PATH=C:\Windows\explorer.exe"
+SET "VBS_NAME=RunBatchSilently.vbs"
+SET "VBS_PATH=%STEAM_FOLDER%\%VBS_NAME%"
+SET "ADMIN_VBS_NAME=LaunchSteamAsAdmin.vbs"
+SET "ADMIN_VBS_PATH=%STEAM_FOLDER%\%ADMIN_VBS_NAME%"
+SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
+SET "XML_NAME=DelayedExplorerStartTask.xml"
+SET "XML_PATH=%STEAM_FOLDER%\DelayedExplorerStartTask.xml"
 
 echo Reverting changes and setting default shell back to Explorer
 
@@ -11,16 +22,10 @@ REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t
 SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
 
 :: Delete the DelayedExplorerStart.bat script and related files
-SET "SCRIPT_NAME=DelayedExplorerStart.bat"
-SET "SCRIPT_PATH=%STEAM_FOLDER%\%SCRIPT_NAME%"
 IF EXIST "%SCRIPT_PATH%" DEL "%SCRIPT_PATH%"
 
-SET "VBS_NAME=RunBatchSilently.vbs"
-SET "VBS_PATH=%STEAM_FOLDER%\%VBS_NAME%"
 IF EXIST "%VBS_PATH%" DEL "%VBS_PATH%"
 
-SET "XML_NAME=DelayedExplorerStartTask.xml"
-SET "XML_PATH=%STEAM_FOLDER%\%XML_NAME%"
 IF EXIST "%XML_PATH%" DEL "%XML_PATH%"
 
 :: Delete the scheduled task
