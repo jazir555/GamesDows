@@ -72,4 +72,4 @@ Setting Steam to start as admin (VBS script to suppress the command prompt windo
 
 I will gladly take PRs to fix the 4 remaining issues if anyone knows how to solve them.
 
-**Note: If for any reason explorer doesn't start, it needs to be launched manually via task manager by launching explorer.exe. It needs to be set as the shell first before it is launched for the desktop to appear when explorer is launched, otherwise it will just launch a file browser window**
+**Note: If for any reason explorer doesn't start and you get a black screen and cannot view the desktop, it needs to be launched manually via task manager by launching explorer.exe. It needs to be set as the shell first before it is launching it from task manager for the desktop to appear, otherwise it will just launch a file browser window**
