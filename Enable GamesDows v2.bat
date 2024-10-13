@@ -60,16 +60,16 @@ echo Creating DelayedExplorerStart.bat script
 
 echo Create the DelayedExplorerStart.bat script in the Steam folder
 (
-echo @echo off
-echo Check if user is logged on
-echo query user ^| find /i "%USERNAME%" ^>nul
-echo if ERRORLEVEL 1 exit
-echo Set Shell back to Explorer
-echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
-echo timeout /t 20 /nobreak ^>nul
-echo start C:\Windows\explorer.exe
-echo timeout /t 10 /nobreak ^>nul
-echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
+    echo @echo off
+    echo REM Check if user is logged on
+    echo query user ^| find /i "%USERNAME%" ^>nul
+    echo if ERRORLEVEL 1 exit
+    echo REM Set Shell back to Explorer
+    echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
+    echo timeout /t 20 /nobreak ^>nul
+    echo start "" "%EXPLORER_PATH%"
+    echo timeout /t 10 /nobreak ^>nul
+    echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
 ) > "%SCRIPT_PATH%"
 
 echo Create XML file for the scheduled task
