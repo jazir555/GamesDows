@@ -79,11 +79,11 @@ echo Delete the existing XML file if it exists
 IF EXIST "%XML_PATH%" DEL "%XML_PATH%"
 
 (
-echo ^<?xml version="1.0" encoding="UTF-16"?^>
+echo ^<?xml version="1.0" encoding="UTF-8"?^>
 echo ^<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"^>
 echo   ^<RegistrationInfo^>
 echo     ^<Date^>2020-01-01T00:00:00^</Date^>
-echo     ^<Author^>"%USERNAME%"^</Author^>
+echo     ^<Author^>%USERNAME%^</Author^>
 echo     ^<Description^>Run DelayedExplorerStart.bat at logon.^</Description^>
 echo   ^</RegistrationInfo^>
 echo   ^<Triggers^>
@@ -93,7 +93,7 @@ echo     ^</LogonTrigger^>
 echo   ^</Triggers^>
 echo   ^<Principals^>
 echo     ^<Principal id="Author"^>
-echo       ^<UserId^>%USERNAME%</UserId^>
+echo       ^<UserId^>%USERNAME%^</UserId^>
 echo       ^<LogonType^>InteractiveToken^</LogonType^>
 echo       ^<RunLevel^>HighestAvailable^</RunLevel^>
 echo     ^</Principal^>
