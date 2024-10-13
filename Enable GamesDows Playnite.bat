@@ -24,10 +24,10 @@ echo Creating DelayedExplorerStart.bat script
 echo Create the DelayedExplorerStart.bat script in the Playnite folder
 (
 echo @echo off
-echo Check if user is logged on
-echo query user ^| find /i "%USERNAME%" ^>nul
+echo rem Check if user is logged on
+echo whoami ^| find /i "%USERNAME%" ^>nul
 echo if ERRORLEVEL 1 exit
-echo Set Shell back to Explorer
+echo rem Set Shell back to Explorer
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo timeout /t 20 /nobreak ^>nul
 echo start C:\Windows\explorer.exe
