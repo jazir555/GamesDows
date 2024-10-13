@@ -19,25 +19,50 @@ SET "VBS_NAME=RunBatchSilently.vbs"
 SET "VBS_PATH=%STEAM_FOLDER%\%VBS_NAME%"
 SET "ADMIN_VBS_NAME=LaunchSteamAsAdmin.vbs"
 SET "ADMIN_VBS_PATH=%STEAM_FOLDER%\%ADMIN_VBS_NAME%"
-SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
+SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe"
+SET "STEAM_ARGS=-bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
+SET "VBS_PATH3=%STEAM_PATH%.wrapper.vbs"
+SET "MANIFEST_PATH=%STEAM_PATH%.manifest"
+SET "REGISTRY_KEY=HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
+SET "SHELL_VALUE=Shell"itialbootstrap -skipverifyfiles"
 
-:: Create VBScript to launch Steam as admin and set the shell to Steam
+@echo off
+SETLOCAL EnableExtensions EnableDelayedExpansion
+
+:: Create the manifest file to force admin privileges for Steam
+echo Creating manifest file for Steam to run as admin...
 (
-    echo ' Define Steam path (adjust if different)
-    echo steamPath = "C:\Program Files (x86)\Steam\Steam.exe"
-    echo
-    echo ' Define arguments for Steam (optional)
-    echo steamArguments = "-bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
-    echo
-    echo ' Execute PowerShell command to launch Steam with elevated privileges
-    echo CreateObject("WScript.Shell").Run "powershell -ExecutionPolicy Bypass -NoProfile -Verb RunAs -command """" ^& steamPath ^& " " ^& steamArguments ^& """"", 0, True
-    echo
-    echo ' Exit the script after launching Steam
-    echo WScript.Quit
-) > LaunchSteamAsAdmin.vbs
+echo ^<?xml version="1.0" encoding="UTF-8" standalone="yes"?^>
+echo ^<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0"^>
+echo     ^<trustInfo xmlns="urn:schemas-microsoft-com:asm.v2"^>
+echo         ^<security^>
+echo             ^<requestedPrivileges^>
+echo                 ^<requestedExecutionLevel level="requireAdministrator" uiAccess="false"/^>
+echo             ^</requestedPrivileges^>
+echo         ^</security^>
+echo     ^</trustInfo^>
+echo ^</assembly^>
+) > "%MANIFEST_PATH%"
 
+if %errorlevel% neq 0 (
+    echo Failed to create manifest file!
+    pause
+    exit /b 1
+)
+echo Manifest file created successfully at %MANIFEST_PATH%.
 
+:: Set Steam as the shell in the registry
+echo Setting Steam as the shell in the Windows registry...
+reg add "%REGISTRY_KEY%" /v %SHELL_VALUE% /d "%STEAM_PATH%" /f
 
+if %errorlevel% neq 0 (
+    echo Failed to set Steam as the shell in the registry!
+    pause
+    exit /b 1
+)
+echo Steam set as the shell successfully.
+
+pause
 
 echo Creating RunBatchSilently.vbs script
 
@@ -66,7 +91,7 @@ echo Create the DelayedExplorerStart.bat script in the Steam folder
     echo timeout /t 20 /nobreak ^>nul
     echo start "" "%EXPLORER_PATH%"
     echo timeout /t 10 /nobreak ^>nul
-    echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
+    echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%VBS_PATH3%" /f
 ) > "%SCRIPT_PATH%"
 
 echo Create XML file for the scheduled task
