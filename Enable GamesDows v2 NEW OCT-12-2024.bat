@@ -10,6 +10,15 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
+@echo off
+SETLOCAL EnableExtensions EnableDelayedExpansion
+
+@echo off
+SETLOCAL EnableExtensions EnableDelayedExpansion
+
+@echo off
+SETLOCAL EnableExtensions EnableDelayedExpansion
+
 echo Define the default Steam folder path and script names
 SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
 SET "SCRIPT_NAME=DelayedExplorerStart.bat"
@@ -17,17 +26,12 @@ SET "SCRIPT_PATH=%STEAM_FOLDER%\%SCRIPT_NAME%"
 SET "EXPLORER_PATH=C:\Windows\explorer.exe"
 SET "VBS_NAME=RunBatchSilently.vbs"
 SET "VBS_PATH=%STEAM_FOLDER%\%VBS_NAME%"
-SET "ADMIN_VBS_NAME=LaunchSteamAsAdmin.vbs"
-SET "ADMIN_VBS_PATH=%STEAM_FOLDER%\%ADMIN_VBS_NAME%"
 SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe"
 SET "STEAM_ARGS=-bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
-SET "VBS_PATH3=%STEAM_PATH%.wrapper.vbs"
+SET "WRAPPER_VBS_PATH=%STEAM_FOLDER%\SteamWrapper.vbs"  :: Combined VBS to handle Steam launch
 SET "MANIFEST_PATH=%STEAM_PATH%.manifest"
 SET "REGISTRY_KEY=HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"
-SET "SHELL_VALUE=Shell"itialbootstrap -skipverifyfiles"
-
-@echo off
-SETLOCAL EnableExtensions EnableDelayedExpansion
+SET "SHELL_VALUE=Shell"
 
 :: Create the manifest file to force admin privileges for Steam
 echo Creating manifest file for Steam to run as admin...
@@ -53,7 +57,7 @@ echo Manifest file created successfully at %MANIFEST_PATH%.
 
 :: Set Steam as the shell in the registry
 echo Setting Steam as the shell in the Windows registry...
-reg add "%REGISTRY_KEY%" /v %SHELL_VALUE% /d "%STEAM_PATH%" /f
+reg add "%REGISTRY_KEY%" /v %SHELL_VALUE% /d "\"%STEAM_PATH%\"" /f
 
 if %errorlevel% neq 0 (
     echo Failed to set Steam as the shell in the registry!
@@ -62,14 +66,12 @@ if %errorlevel% neq 0 (
 )
 echo Steam set as the shell successfully.
 
-pause
-
 echo Creating RunBatchSilently.vbs script
 
 :: Create VBScript to run the batch file silently
 (
     echo Set WshShell = CreateObject("WScript.Shell")
-    echo WshShell.Run chr(34) & "%SCRIPT_PATH%" & chr(34), 0, True
+    echo WshShell.Run chr(34) ^& "%SCRIPT_PATH%" ^& chr(34), 0, True
     echo Set WshShell = Nothing
 ) > "%VBS_PATH%"
 if %errorlevel% neq 0 (
@@ -78,9 +80,24 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
+echo Creating SteamWrapper.vbs script
+
+:: Create the SteamWrapper.vbs script to launch Steam with arguments
+(
+    echo Set WshShell = CreateObject("WScript.Shell")
+    echo WshShell.Run chr(34) ^& "%STEAM_PATH%" ^& chr(34) ^& " " ^& "%STEAM_ARGS%", 0, False
+    echo Set WshShell = Nothing
+) > "%WRAPPER_VBS_PATH%"
+
+if %errorlevel% neq 0 (
+    echo Error creating SteamWrapper.vbs
+    pause
+    exit /b 1
+)
+
 echo Creating DelayedExplorerStart.bat script
 
-echo Create the DelayedExplorerStart.bat script in the Steam folder
+:: Create the DelayedExplorerStart.bat script in the Steam folder
 (
     echo @echo off
     echo REM Check if user is logged on
@@ -91,8 +108,18 @@ echo Create the DelayedExplorerStart.bat script in the Steam folder
     echo timeout /t 20 /nobreak ^>nul
     echo start "" "%EXPLORER_PATH%"
     echo timeout /t 10 /nobreak ^>nul
-    echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%VBS_PATH3%" /f
+    echo REM Set Shell back to the VBS script that launches Steam
+    echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "\"%WRAPPER_VBS_PATH%\"" /f
 ) > "%SCRIPT_PATH%"
+
+if %errorlevel% neq 0 (
+    echo Error creating DelayedExplorerStart.bat
+    pause
+    exit /b 1
+)
+
+echo Script creation completed successfully!
+pause
 
 echo Create XML file for the scheduled task
 SET XML_PATH=%STEAM_FOLDER%\DelayedExplorerStartTask.xml
