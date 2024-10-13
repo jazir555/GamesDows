@@ -223,7 +223,7 @@ echo Registry modifications are complete.
 echo Steam Big Picture set as default shell.
 echo Automatic logon enabled.
 echo Boot UI disabled.
-echo The first time Steam is launched after running this script UAC popup confirmation will appear.
+echo The first time Steam is launched after running this script UAC popup confirmation will appear. Ensure you select the option to always start Steam as administrator.
 
 pause
 
