@@ -25,19 +25,17 @@ echo Creating LaunchSteamAsAdmin.vbs script
 
 :: Create VBScript to launch Steam as admin and set the shell to Steam
 (
-    echo Set WshShell = CreateObject("WScript.Shell")
-    echo ' Run REG ADD command to set the shell to Steam
-    echo WshShell.Run "cmd /c REG ADD ""HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"" /v Shell /t REG_SZ /d ""%STEAM_PATH%"" /f", 0, True
-    echo ' Launch Steam with elevated privileges
-    echo Set objShell = CreateObject("Shell.Application")
-    echo objShell.ShellExecute "%STEAM_PATH%", "", "", "runas", 1
-    echo Set WshShell = Nothing
-    echo Set objShell = Nothing
-) > "%ADMIN_VBS_PATH%"
-if %errorlevel% neq 0 (
-    echo Error creating LaunchSteamAsAdmin.vbs
-    pause
-    exit /b 1
+' Define Steam path (adjust if different)
+steamPath = "C:\Program Files (x86)\Steam\Steam.exe"
+
+' Define arguments for Steam (optional)
+steamArguments = "-bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
+
+' Execute PowerShell command to launch Steam with elevated privileges
+CreateObject("WScript.Shell").Run "powershell -ExecutionPolicy Bypass -NoProfile -Verb RunAs -command \"" & steamPath & " " & steamArguments & "\"", 0, True
+
+' Exit the script after launching Steam
+WScript.Quit
 )
 
 echo Creating RunBatchSilently.vbs script
