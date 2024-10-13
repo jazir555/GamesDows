@@ -21,8 +21,6 @@ SET "ADMIN_VBS_NAME=LaunchSteamAsAdmin.vbs"
 SET "ADMIN_VBS_PATH=%STEAM_FOLDER%\%ADMIN_VBS_NAME%"
 SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
 
-echo Creating LaunchSteamAsAdmin.vbs script
-
 :: Create VBScript to launch Steam as admin and set the shell to Steam
 (
     echo ' Define Steam path (adjust if different)
@@ -37,6 +35,7 @@ echo Creating LaunchSteamAsAdmin.vbs script
     echo ' Exit the script after launching Steam
     echo WScript.Quit
 ) > LaunchSteamAsAdmin.vbs
+
 
 
 
