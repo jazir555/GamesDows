@@ -128,9 +128,17 @@ echo Delete the existing scheduled task if it exists
 schtasks /delete /tn "RunDelayedExplorerStart" /f
 
 echo Create the scheduled task using the XML file
-schtasks /create /tn "RunDelayedExplorerStart" /xml "!XML_PATH!"
-if %errorlevel% neq 0 (
-    echo Error creating scheduled task
+IF EXIST "%XML_PATH%" (
+    schtasks /create /tn "RunDelayedExplorerStart" /xml "%XML_PATH%" >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo Error creating scheduled task
+        pause
+        exit /b 1
+    ) else (
+        echo [SUCCESS] Scheduled task 'RunDelayedExplorerStart' created.
+    )
+) else (
+    echo [ERROR] XML file for scheduled task does not exist.
     pause
     exit /b 1
 )
