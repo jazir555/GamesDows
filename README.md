@@ -66,6 +66,6 @@ What remains to be fixed:
 
 **Please let me know if you have any issues with existing functionality and I'll try to get the bugs fixed up if any arise.**
 
-I will gladly take PRs to fix the 4 remaining issues if anyone knows how to solve them.
+I will gladly take PRs to fix the 3 remaining issues if anyone knows how to solve them.
 
 **Note: If for any reason explorer doesn't start and you get a black screen and cannot view the desktop, it needs to be launched manually via task manager by launching explorer.exe. It needs to be set as the shell first before it is launching it from task manager for the desktop to appear, otherwise it will just launch a file browser window**
