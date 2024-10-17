@@ -9,7 +9,6 @@ SET "VALUE_NAME=Shell"
 SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%STEAM_PATH%" /f
 
-
 @echo off
 SETLOCAL EnableExtensions EnableDelayedExpansion
 
@@ -18,6 +17,29 @@ SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
 SET "SCRIPT_NAME=DelayedExplorerStart.bat"
 SET "SCRIPT_PATH=%STEAM_FOLDER%\%SCRIPT_NAME%"
 SET "EXPLORER_PATH=C:\Windows\explorer.exe"
+SET "MANIFEST_PATH=%STEAM_PATH%.manifest"
+
+:: Create the manifest file to force admin privileges for Steam
+echo Creating manifest file for Steam to run as admin...
+(
+echo ^<?xml version="1.0" encoding="UTF-8" standalone="yes"?^>
+echo ^<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0"^>
+echo     ^<trustInfo xmlns="urn:schemas-microsoft-com:asm.v2"^>
+echo         ^<security^>
+echo             ^<requestedPrivileges^>
+echo                 ^<requestedExecutionLevel level="requireAdministrator" uiAccess="false"/^>
+echo             ^</requestedPrivileges^>
+echo         ^</security^>
+echo     ^</trustInfo^>
+echo ^</assembly^>
+) > "%MANIFEST_PATH%"
+
+if %errorlevel% neq 0 (
+    echo Failed to create manifest file!
+    pause
+    exit /b 1
+)
+echo Manifest file created successfully at %MANIFEST_PATH%.
 
 echo Creating DelayedExplorerStart.bat script
 
