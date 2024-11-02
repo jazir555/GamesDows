@@ -60,7 +60,7 @@ What remains to be fixed:
 
 1. Completely suppressing the taskbar from appearing when Windows Explorer automatically launches in the background. The taskbar displays temporarily for ~1 second when explorer.exe launches, which makes it appear over the Big Picture UI; and then it disappears. This is not intended behavior, and it is visually distracting. 
 
-2. Disabling the Windows welcome sign-in UI animation (user picture, user name, spinning wheel) entirely. Currently the Boot logo is removed as intended, and the script is set to log the user account which ran the script in automatically. The welcome sign-in animation still remains, and will be disabled in future versions of the script. Going to have to write a custom C++ application to do so since there is no off the shelf way to disable the Welcome Screen on Windows 11.
+2. Disabling the Windows welcome sign-in UI animation (user picture, user name, spinning wheel) entirely. Currently the Boot logo is removed as intended, and the script is set to log the user account which ran the script in automatically. The welcome sign-in animation still remains, and will be disabled in future versions of the script. Going to have to write a custom C++ application or a custom credential provider to do so since there is no off the shelf way to disable the Welcome Screen on Windows 11.
 
 3. Disabling the Steam client update window which displays momentarily when Steam updates (this only occurs when the Steam Client has an update, otherwise it will not appear) before launching Big Picture.
 
