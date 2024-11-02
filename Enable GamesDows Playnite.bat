@@ -6,11 +6,13 @@ echo Setting Playnite as default shell
 SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
 SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
-SET "PLAYNITE_PATH=%LOCALAPPDATA%\Playnite\Playnite.FullscreenApp.exe
+SET "PLAYNITE_PATH=%LOCALAPPDATA%\Playnite\Playnite.FullscreenApp.exe"
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
 SET "SCRIPT_NAME=DelayedExplorerStart.bat"
 SET "SCRIPT_PATH=%PLAYNITE_FOLDER%\%SCRIPT_NAME%"
 SET "EXPLORER_PATH=C:\Windows\explorer.exe"
+SET "VBS_NAME=RunBatchSilently.vbs"
+SET "VBS_PATH=%PLAYNITE_FOLDER%\%VBS_NAME%"
 
 @echo off
 SETLOCAL EnableExtensions EnableDelayedExpansion
@@ -36,10 +38,8 @@ echo %VBS_PATH%
 
 echo Creating RunBatchSilently.vbs script
 
-:: Create VBScript to run the batch file silently
+rem Create VBScript to run the batch file silently
 @echo off
-SET "VBS_NAME=RunBatchSilently.vbs"
-SET "VBS_PATH=%PLAYNITE_FOLDER%\%VBS_NAME%"
 echo Set WshShell = CreateObject("WScript.Shell") > "%VBS_PATH%"
 echo WshShell.Run chr(34)^&"%SCRIPT_PATH%"^&chr(34), 0, True >> "%VBS_PATH%"
 echo Set WshShell = Nothing >> "%VBS_PATH%"
