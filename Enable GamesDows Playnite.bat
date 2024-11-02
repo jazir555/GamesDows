@@ -39,7 +39,6 @@ echo %VBS_PATH%
 echo Creating RunBatchSilently.vbs script
 
 rem Create VBScript to run the batch file silently
-@echo off
 echo Set WshShell = CreateObject("WScript.Shell") > "%VBS_PATH%"
 echo WshShell.Run chr(34)^&"%SCRIPT_PATH%"^&chr(34), 0, True >> "%VBS_PATH%"
 echo Set WshShell = Nothing >> "%VBS_PATH%"
