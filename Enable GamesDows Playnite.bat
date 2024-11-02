@@ -6,18 +6,15 @@ echo Setting Playnite as default shell
 echo Set Playnite as the default shell
 SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
+SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
 SET "PLAYNITE_PATH=%LOCALAPPDATA%\Playnite\Playnite.FullscreenApp.exe
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
-
-
-@echo off
-SETLOCAL EnableExtensions EnableDelayedExpansion
-
-echo Define the default Playnite folder path and script names
-SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
 SET "SCRIPT_NAME=DelayedExplorerStart.bat"
 SET "SCRIPT_PATH=%PLAYNITE_FOLDER%\%SCRIPT_NAME%"
 SET "EXPLORER_PATH=C:\Windows\explorer.exe"
+
+@echo off
+SETLOCAL EnableExtensions EnableDelayedExpansion
 
 echo Creating DelayedExplorerStart.bat script
 
