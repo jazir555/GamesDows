@@ -36,7 +36,7 @@ echo rem Wait for Explorer to start
 echo timeout /t 2 /nobreak ^>nul
 
 echo rem Wait for a specific delay before unsetting autohide
-echo timeout /t 30 /nobreak ^>nul
+echo timeout /t 5 /nobreak ^>nul
 
 echo rem Unset taskbar autohide and refresh taskbar without restarting explorer.exe
 echo powershell -command ^^
