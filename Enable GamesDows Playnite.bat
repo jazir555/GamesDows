@@ -1,5 +1,5 @@
 @echo off
-SETLOCAL EnableExtensions
+SETLOCAL EnableExtensions EnableDelayedExpansion
 
 echo Setting Playnite as default shell
 
@@ -13,9 +13,6 @@ SET "SCRIPT_PATH=%PLAYNITE_FOLDER%\%SCRIPT_NAME%"
 SET "EXPLORER_PATH=C:\Windows\explorer.exe"
 SET "VBS_NAME=RunBatchSilently.vbs"
 SET "VBS_PATH=%PLAYNITE_FOLDER%\%VBS_NAME%"
-
-@echo off
-SETLOCAL EnableExtensions EnableDelayedExpansion
 
 echo Creating DelayedExplorerStart.bat script
 
