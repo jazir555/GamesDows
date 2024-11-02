@@ -3,7 +3,6 @@ SETLOCAL EnableExtensions
 
 echo Setting Playnite as default shell
 
-echo Set Playnite as the default shell
 SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
 SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
