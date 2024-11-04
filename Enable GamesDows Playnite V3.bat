@@ -137,6 +137,9 @@ echo Applying system optimizations
 REM Disable the boot UI
 bcdedit.exe -set {globalsettings} bootuxdisabled on
 
+REM Disable Logon UI
+reg add "%KEY_NAME%" /v DisableLogonUI /t REG_DWORD /d 1 /f
+
 REM Disable Visual Effects
 reg add "HKCU\Control Panel\Desktop" /v VisualFXSetting /t REG_DWORD /d 2 /f
 
