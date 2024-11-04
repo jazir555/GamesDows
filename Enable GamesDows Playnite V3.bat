@@ -3,6 +3,9 @@ SETLOCAL EnableExtensions EnableDelayedExpansion
 
 echo Setting Playnite as default shell
 
+REM Disable Logon UI
+reg add "%KEY_NAME%" /v DisableLogonUI /t REG_DWORD /d 1 /f
+
 SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
 SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
@@ -13,9 +16,6 @@ SET "SCRIPT_PATH=%PLAYNITE_FOLDER%\%SCRIPT_NAME%"
 SET "EXPLORER_PATH=%SystemRoot%\explorer.exe"
 SET "VBS_NAME=RunBatchSilently.vbs"
 SET "VBS_PATH=%PLAYNITE_FOLDER%\%VBS_NAME%"
-
-REM Disable Logon UI
-reg add "%KEY_NAME%" /v DisableLogonUI /t REG_DWORD /d 1 /f
 
 echo Creating DelayedExplorerStart.bat script
 
