@@ -30,9 +30,8 @@ echo powershell -command ^^
     "Set-ItemProperty -Path ^$settingsPath -Name 'Settings' -Value ^$settings"
 
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
-echo timeout /t 10 /nobreak ^>nul
 echo rem Start Explorer
-echo start C:\Windows\explorer.exe
+echo start C:\Windows\explorer.exe /desktop
 
 echo rem Wait for Explorer to start
 echo timeout /t 2 /nobreak ^>nul
