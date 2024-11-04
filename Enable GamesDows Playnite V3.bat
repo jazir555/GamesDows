@@ -25,7 +25,6 @@ echo rem Check if user is logged on
 echo whoami ^| find /i "%%USERNAME%%" ^>nul
 echo if ERRORLEVEL 1 exit
 
-
 REM Disable Logon UI
 reg add "%KEY_NAME%" /v DisableLogonUI /t REG_DWORD /d 1 /f
 
