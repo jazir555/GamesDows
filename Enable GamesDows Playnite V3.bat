@@ -48,6 +48,7 @@ echo powershell -command ^^
     "^$sig = '[DllImport(\"user32.dll\")] public static extern int SendMessageTimeout(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam, uint fuFlags, uint uTimeout, out IntPtr lpdwResult);';" ^^
     "Add-Type -MemberDefinition ^$sig -Name 'Win32SendMessageTimeout' -Namespace 'Win32Functions';" ^^
     "[Win32Functions.Win32SendMessageTimeout]::SendMessageTimeout([IntPtr]::Zero, 0x1A, [IntPtr]::Zero, [IntPtr]::Zero, 0x0002, 1000, [ref]([IntPtr]::Zero));"
+REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
 ) > "%SCRIPT_PATH%"
 
 echo Creating RunBatchSilently.vbs script
