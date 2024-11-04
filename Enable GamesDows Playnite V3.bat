@@ -38,7 +38,7 @@ echo powershell -command ^^
 REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo rem Start Explorer
 echo timeout /t 10 /nobreak ^>nul
-echo start C:\Windows\explorer.exe /desktop
+echo start C:\Windows\explorer.exe
 
 echo rem Wait for Explorer to start
 echo timeout /t 2 /nobreak ^>nul
