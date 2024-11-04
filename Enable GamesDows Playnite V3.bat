@@ -21,6 +21,8 @@ echo @echo off
 echo rem Check if user is logged on
 echo whoami ^| find /i "%%USERNAME%%" ^>nul
 echo if ERRORLEVEL 1 exit
+echo timeout /t 10 /nobreak ^>nul
+REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 
 echo rem Set taskbar to autohide
 echo powershell -command ^^
@@ -30,8 +32,7 @@ echo powershell -command ^^
     "Set-ItemProperty -Path ^$settingsPath -Name 'Settings' -Value ^$settings"
 
 echo rem Start Explorer
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
-echo start "" "%EXPLORER_PATH%" /desktop
+echo start C:\Windows\explorer.exe /desktop
 
 echo rem Wait for Explorer to start
 echo timeout /t 2 /nobreak ^>nul
