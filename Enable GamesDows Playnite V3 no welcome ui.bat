@@ -29,11 +29,12 @@ echo rem Start Explorer
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo rem Starting Explorer
 echo start C:\Windows\explorer.exe
-
+echo reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableLogonUI /t REG_DWORD /d 1 /f
 echo rem Unset taskbar autohide and refresh taskbar without restarting explorer.exe
 echo powershell -command "$settingsPath='HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'; $settings=(Get-ItemProperty -Path $settingsPath -Name 'Settings').Settings; $settings[8]=$settings[8] -band 0xF7; Set-ItemProperty -Path $settingsPath -Name 'Settings' -Value $settings; $sig='[DllImport(\\""user32.dll\\"")] public static extern int SendMessageTimeout(IntPtr hWnd,uint Msg,IntPtr wParam,IntPtr lParam,uint fuFlags,uint uTimeout,out IntPtr lpdwResult);'; Add-Type -MemberDefinition $sig -Name 'Win32SendMessageTimeout' -Namespace 'Win32Functions'; [Win32Functions.Win32SendMessageTimeout]::SendMessageTimeout([IntPtr]::Zero,0x1A,[IntPtr]::Zero,[IntPtr]::Zero,0x0002,1000,[ref]([IntPtr]::Zero));"
 
-REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
+echo reg add "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
+echo reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableLogonUI /t REG_DWORD /d 1 /f
 ) > "%SCRIPT_PATH%"
 
 echo Creating RunBatchSilently.vbs script
