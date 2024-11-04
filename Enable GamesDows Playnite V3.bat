@@ -30,9 +30,9 @@ reg add "%KEY_NAME%" /v DisableLogonUI /t REG_DWORD /d 1 /f
 echo rem Set taskbar to autohide
 echo powershell -command "$settingsPath='HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3'; $settings=(Get-ItemProperty -Path $settingsPath -Name 'Settings').Settings; $settings[8]=$settings[8] -bor 0x08; Set-ItemProperty -Path $settingsPath -Name 'Settings' -Value $settings"
 
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo rem Start Explorer
-echo timeout /t 10 /nobreak ^>nul
+echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
+echo rem Starting Explorer
 echo start C:\Windows\explorer.exe
 
 echo rem Wait for Explorer to start
