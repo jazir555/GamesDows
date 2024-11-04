@@ -14,6 +14,9 @@ SET "EXPLORER_PATH=%SystemRoot%\explorer.exe"
 SET "VBS_NAME=RunBatchSilently.vbs"
 SET "VBS_PATH=%PLAYNITE_FOLDER%\%VBS_NAME%"
 
+REM Disable Logon UI
+reg add "%KEY_NAME%" /v DisableLogonUI /t REG_DWORD /d 1 /f
+
 echo Creating DelayedExplorerStart.bat script
 
 (
@@ -21,6 +24,10 @@ echo @echo off
 echo rem Check if user is logged on
 echo whoami ^| find /i "%%USERNAME%%" ^>nul
 echo if ERRORLEVEL 1 exit
+
+
+REM Disable Logon UI
+reg add "%KEY_NAME%" /v DisableLogonUI /t REG_DWORD /d 1 /f
 
 echo rem Set taskbar to autohide
 echo powershell -command ^^
@@ -128,9 +135,6 @@ echo Applying system optimizations
 
 REM Disable the boot UI
 bcdedit.exe -set {globalsettings} bootuxdisabled on
-
-REM Disable Logon UI
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableLogonUI /t REG_DWORD /d 1 /f
 
 REM Disable Visual Effects
 reg add "HKCU\Control Panel\Desktop" /v VisualFXSetting /t REG_DWORD /d 2 /f
