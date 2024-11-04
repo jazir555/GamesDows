@@ -31,13 +31,8 @@ echo powershell -command ^^
 
 echo rem Start Explorer
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
-echo start "" "%EXPLORER_PATH%" /desktop
-
-echo rem Wait for Explorer to start
-echo timeout /t 2 /nobreak ^>nul
-
-echo rem Wait for a specific delay before unsetting autohide
-echo timeout /t 5 /nobreak ^>nul
+echo rem Starting Explorer
+echo start C:\Windows\explorer.exe
 
 echo rem Unset taskbar autohide and refresh taskbar without restarting explorer.exe
 echo powershell -command ^^
