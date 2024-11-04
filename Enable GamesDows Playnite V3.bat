@@ -1,10 +1,10 @@
 @echo off
 SETLOCAL EnableExtensions EnableDelayedExpansion
 
-echo Setting Playnite as default shell
-
 REM Disable Logon UI
 reg add "%KEY_NAME%" /v DisableLogonUI /t REG_DWORD /d 1 /f
+
+echo Setting Playnite as default shell
 
 SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
