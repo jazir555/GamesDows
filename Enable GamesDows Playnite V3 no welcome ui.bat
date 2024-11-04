@@ -30,7 +30,7 @@ echo powershell -command ^^
     "Set-ItemProperty -Path ^$settingsPath -Name 'Settings' -Value ^$settings"
 
 echo rem Start Explorer
-REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
+echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo start "" "%EXPLORER_PATH%" /desktop
 
 echo rem Wait for Explorer to start
