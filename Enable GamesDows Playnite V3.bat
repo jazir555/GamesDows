@@ -30,7 +30,7 @@ echo powershell -command ^^
     "Set-ItemProperty -Path ^$settingsPath -Name 'Settings' -Value ^$settings"
 
 echo rem Start Explorer
-echo start "" "%EXPLORER_PATH%"
+echo start "" "%EXPLORER_PATH%" /desktop
 
 echo rem Wait for Explorer to start
 echo timeout /t 2 /nobreak ^>nul
