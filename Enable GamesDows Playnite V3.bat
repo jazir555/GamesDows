@@ -73,6 +73,7 @@ echo   ^</RegistrationInfo^>
 echo   ^<Triggers^>
 echo     ^<LogonTrigger^>
 echo       ^<Enabled^>true^</Enabled^>
+echo       ^<Delay^>PT5S^</Delay^>
 echo     ^</LogonTrigger^>
 echo   ^</Triggers^>
 echo   ^<Principals^>
