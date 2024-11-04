@@ -1,8 +1,6 @@
 @echo off
 SETLOCAL EnableExtensions EnableDelayedExpansion
 
-
-
 echo Setting Playnite as default shell
 
 SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
