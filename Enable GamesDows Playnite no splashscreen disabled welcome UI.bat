@@ -118,6 +118,14 @@ echo Disable Logon UI
 
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableLogonUI /t REG_DWORD /d 1 /f
 
+echo Enabling AutoAdminLogon
+reg add "%KEY_NAME%" /v AutoAdminLogon /t REG_SZ /d "1" /f
+reg add "%KEY_NAME%" /v DefaultUserName /t REG_SZ /d "%USERNAME%" /f
+reg add "%KEY_NAME%" /v DefaultPassword /t REG_SZ /d "" /f
+
+echo Disabling Automatic Restart Sign-On
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableAutomaticRestartSignOn /t REG_DWORD /d 1 /f
+
 echo Disable Visual Effects
 reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v VisualEffects /t REG_DWORD /d 1 /f
 
