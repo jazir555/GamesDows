@@ -30,7 +30,7 @@ echo whoami ^| find /i "%USERNAME%" ^>nul
 echo if ERRORLEVEL 1 exit
 echo rem Set Shell back to Explorer
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
-echo timeout /t 20 /nobreak ^>nul
+echo timeout /t 5 /nobreak ^>nul
 echo start C:\Windows\explorer.exe
 echo timeout /t 10 /nobreak ^>nul
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%PLAYNITE_PATH%" /f
