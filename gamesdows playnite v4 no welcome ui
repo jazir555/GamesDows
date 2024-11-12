@@ -1,0 +1,112 @@
+@echo off
+SETLOCAL EnableExtensions
+
+echo Setting Playnite as default shell
+
+REM Set Playnite as the default shell
+SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+SET "VALUE_NAME=Shell"
+SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
+SET "PLAYNITE_PATH=%PLAYNITE_FOLDER%\Playnite.FullscreenApp.exe --hidesplashscreen"
+REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
+
+echo Defining script names and paths
+
+SET "SCRIPT_NAME=DelayedExplorerStart.bat"
+SET "SCRIPT_PATH=%PLAYNITE_FOLDER%\%SCRIPT_NAME%"
+SET "EXPLORER_PATH=%SystemRoot%\explorer.exe"
+
+SET "DISABLE_LOGON_UI_BAT=SetDisableLogonUI.bat"
+SET "DISABLE_LOGON_UI_BAT_PATH=%PLAYNITE_FOLDER%\%DISABLE_LOGON_UI_BAT%"
+
+SET "VBS_DISABLE_LOGON_UI=SetDisableLogonUI.vbs"
+SET "VBS_DISABLE_LOGON_UI_PATH=%PLAYNITE_FOLDER%\%VBS_DISABLE_LOGON_UI%"
+
+SET "VBS_NAME=RunBatchSilently.vbs"
+SET "VBS_PATH=%PLAYNITE_FOLDER%\%VBS_NAME%"
+
+REM Ensure the Playnite folder exists
+IF NOT EXIST "%PLAYNITE_FOLDER%" (
+    MKDIR "%PLAYNITE_FOLDER%"
+)
+
+echo Creating SetDisableLogonUI.bat script
+
+(
+echo @echo off
+echo reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" ^
+ /v DisableLogonUI /t REG_DWORD /d 1 /f
+echo rem Clean up
+echo del "%DISABLE_LOGON_UI_BAT_PATH%"
+echo del "%VBS_DISABLE_LOGON_UI_PATH%"
+) > "%DISABLE_LOGON_UI_BAT_PATH%"
+
+echo Creating SetDisableLogonUI.vbs script
+
+(
+echo Set WshShell = CreateObject("WScript.Shell")
+echo WshShell.Run chr(34^) ^& "%DISABLE_LOGON_UI_BAT_PATH%" ^& chr(34^), 0, True
+echo Set WshShell = Nothing
+) > "%VBS_DISABLE_LOGON_UI_PATH%"
+
+echo Creating scheduled task to set DisableLogonUI at startup
+
+schtasks /create /tn "SetDisableLogonUI" /sc onstart /rl highest /ru SYSTEM ^
+ /tr "wscript.exe \"%VBS_DISABLE_LOGON_UI_PATH%\"" /f
+
+echo Creating DelayedExplorerStart.bat script
+
+(
+echo @echo off
+echo rem Check if user is logged on
+echo whoami ^| find /i "%USERNAME%" ^>nul
+echo if ERRORLEVEL 1 exit
+echo rem Set Shell back to Explorer
+echo REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%EXPLORER_PATH%" /f
+echo timeout /t 5 /nobreak ^>nul
+echo start "" "%EXPLORER_PATH%"
+echo timeout /t 5 /nobreak ^>nul
+echo rem Set Shell back to Playnite
+echo REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
+) > "%SCRIPT_PATH%"
+
+echo Creating RunBatchSilently.vbs script
+
+(
+echo Set WshShell = CreateObject("WScript.Shell")
+echo WshShell.Run chr(34^) ^& "%SCRIPT_PATH%" ^& chr(34^), 0, True
+echo Set WshShell = Nothing
+) > "%VBS_PATH%"
+
+echo Creating scheduled task to run DelayedExplorerStart.bat at logon
+
+schtasks /delete /tn "RunDelayedExplorerStart" /f
+
+schtasks /create /tn "RunDelayedExplorerStart" /sc onlogon /rl highest ^
+ /tr "wscript.exe \"%VBS_PATH%\"" /f
+
+echo Applying system optimizations
+
+REM Disable the boot UI
+bcdedit.exe -set {globalsettings} bootuxdisabled on
+
+REM Disable Logon UI (already being set via startup script)
+REM reg add "%KEY_NAME%" /v DisableLogonUI /t REG_DWORD /d 1 /f
+
+REM Enabling AutoAdminLogon
+reg add "%KEY_NAME%" /v AutoAdminLogon /t REG_SZ /d "1" /f
+reg add "%KEY_NAME%" /v DefaultUserName /t REG_SZ /d "%USERNAME%" /f
+reg add "%KEY_NAME%" /v DefaultPassword /t REG_SZ /d "" /f
+
+echo Disabling Automatic Restart Sign-On
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" ^
+ /v DisableAutomaticRestartSignOn /t REG_DWORD /d 1 /f
+
+REM Additional optimizations can be added here
+
+echo Registry modifications are complete.
+echo Playnite set as default shell.
+echo Automatic logon enabled.
+echo Boot UI disabled.
+
+pause
