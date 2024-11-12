@@ -149,11 +149,12 @@ echo   ^</RegistrationInfo^>
 echo   ^<Triggers^>
 echo     ^<BootTrigger^>
 echo       ^<Enabled^>true^</Enabled^>
+echo	   ^<Delay^>PT0S</Delay^>
 echo     ^</BootTrigger^>
 echo   ^</Triggers^>
 echo   ^<Principals^>
 echo     ^<Principal id="LocalSystem"^>
-echo       ^<UserId^>SYSTEM</UserId^>
+echo       ^<UserId^>SYSTEM^</UserId^>
 echo       ^<RunLevel^>HighestAvailable^</RunLevel^>
 echo     ^</Principal^>
 echo   ^</Principals^>
