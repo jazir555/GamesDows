@@ -9,6 +9,7 @@ SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
 SET "PLAYNITE_PATH=%PLAYNITE_FOLDER%\Playnite.FullscreenApp.exe --hidesplashscreen"
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
 
+rem Disable Hibernate
 powercfg -h off
 
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableFirstLogonAnimation /t REG_DWORD /d 0 /f
