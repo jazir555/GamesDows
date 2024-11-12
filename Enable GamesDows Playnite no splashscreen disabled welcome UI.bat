@@ -10,6 +10,7 @@ SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
 SET "PLAYNITE_PATH=%LOCALAPPDATA%\Playnite\Playnite.FullscreenApp.exe --hidesplashscreen"
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
 
+powercfg -h off
 
 @echo off
 SETLOCAL EnableExtensions EnableDelayedExpansion
