@@ -40,7 +40,7 @@ echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon" /v Shell 
 
 echo Creating RunBatchSilently.vbs script
 
-:: Create VBScript to run the batch file silently
+rem Create VBScript to run the batch file silently
 SET "VBS_NAME=RunBatchSilently.vbs"
 SET "VBS_PATH=%PLAYNITE_FOLDER%\%VBS_NAME%"
 echo %VBS_PATH%
