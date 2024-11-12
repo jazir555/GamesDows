@@ -149,7 +149,7 @@ echo   ^</RegistrationInfo^>
 echo   ^<Triggers^>
 echo     ^<BootTrigger^>
 echo       ^<Enabled^>true^</Enabled^>
-echo	   ^<Delay^>PT0S</Delay^>
+echo	     ^<Delay^>PT0S</Delay^>
 echo     ^</BootTrigger^>
 echo   ^</Triggers^>
 echo   ^<Principals^>
