@@ -7,10 +7,12 @@ echo Set Playnite as the default shell
 SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
 SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
-SET "PLAYNITE_PATH=%LOCALAPPDATA%\Playnite\Playnite.FullscreenApp.exe --hidesplashscreen"
+SET "PLAYNITE_PATH=%PLAYNITE_FOLDER%\Playnite.FullscreenApp.exe --hidesplashscreen"
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%PLAYNITE_PATH%" /f
 
 powercfg -h off
+
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableFirstLogonAnimation /t REG_DWORD /d 0 /f
 
 @echo off
 SETLOCAL EnableExtensions EnableDelayedExpansion
@@ -34,20 +36,17 @@ echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v She
 echo timeout /t 5 /nobreak ^>nul
 echo start C:\Windows\explorer.exe
 echo timeout /t 5 /nobreak ^>nul
-echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%PLAYNITE_PATH%" /f
+echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%PLAYNITE_PATH%" /f
 ) > "%SCRIPT_PATH%"
-
-
-echo %VBS_PATH% 
 
 echo Creating RunBatchSilently.vbs script
 
 :: Create VBScript to run the batch file silently
-@echo off
 SET "VBS_NAME=RunBatchSilently.vbs"
 SET "VBS_PATH=%PLAYNITE_FOLDER%\%VBS_NAME%"
+echo %VBS_PATH%
 echo Set WshShell = CreateObject("WScript.Shell") > "%VBS_PATH%"
-echo WshShell.Run chr(34)^&"%SCRIPT_PATH%"^&chr(34), 0, True >> "%VBS_PATH%"
+echo WshShell.Run chr(34^) ^& "%SCRIPT_PATH%" ^& chr(34^), 0, True >> "%VBS_PATH%"
 echo Set WshShell = Nothing >> "%VBS_PATH%"
 
 echo Create XML file for the scheduled task
@@ -111,6 +110,86 @@ schtasks /create /tn "RunDelayedExplorerStart" /xml "%XML_PATH%"
 echo Delayed Explorer start script and VBScript created in Playnite folder.
 echo Scheduled Task added to run the script at logon.
 echo XML file for Scheduled Task created.
+
+:: Begin new code to create startup task for SetDisableLogonUI
+
+echo Creating SetDisableLogonUI.bat script
+
+SET "SET_DISABLE_LOGON_UI_BAT_NAME=SetDisableLogonUI.bat"
+SET "SET_DISABLE_LOGON_UI_BAT_PATH=%PLAYNITE_FOLDER%\%SET_DISABLE_LOGON_UI_BAT_NAME%"
+
+(
+echo @echo off
+echo reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableLogonUI /t REG_DWORD /d 1 /f
+) > "%SET_DISABLE_LOGON_UI_BAT_PATH%"
+
+echo Creating RunSetDisableLogonUI.vbs script
+
+SET "VBS_DISABLE_LOGON_UI_NAME=RunSetDisableLogonUI.vbs"
+SET "VBS_DISABLE_LOGON_UI_PATH=%PLAYNITE_FOLDER%\%VBS_DISABLE_LOGON_UI_NAME%"
+
+echo Set WshShell = CreateObject("WScript.Shell") > "%VBS_DISABLE_LOGON_UI_PATH%"
+echo WshShell.Run chr(34^) ^& "%SET_DISABLE_LOGON_UI_BAT_PATH%" ^& chr(34^), 0, True >> "%VBS_DISABLE_LOGON_UI_PATH%"
+echo Set WshShell = Nothing >> "%VBS_DISABLE_LOGON_UI_PATH%"
+
+echo Create XML file for the startup scheduled task
+SET "XML_STARTUP_TASK_PATH=%PLAYNITE_FOLDER%\SetDisableLogonUITask.xml"
+
+echo Delete the existing startup task XML file if it exists
+IF EXIST "%XML_STARTUP_TASK_PATH%" DEL "%XML_STARTUP_TASK_PATH%"
+
+(
+echo ^<?xml version="1.0" encoding="UTF-16"?^>
+echo ^<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"^>
+echo   ^<RegistrationInfo^>
+echo     ^<Date^>2020-01-01T00:00:00^</Date^>
+echo     ^<Author^>SYSTEM^</Author^>
+echo     ^<Description^>Run SetDisableLogonUI.bat at startup.^</Description^>
+echo   ^</RegistrationInfo^>
+echo   ^<Triggers^>
+echo     ^<BootTrigger^>
+echo       ^<Enabled^>true^</Enabled^>
+echo     ^</BootTrigger^>
+echo   ^</Triggers^>
+echo   ^<Principals^>
+echo     ^<Principal id="LocalSystem"^>
+echo       ^<UserId^>SYSTEM</UserId^>
+echo       ^<RunLevel^>HighestAvailable^</RunLevel^>
+echo     ^</Principal^>
+echo   ^</Principals^>
+echo   ^<Settings^>
+echo       ^<MultipleInstancesPolicy^>IgnoreNew^</MultipleInstancesPolicy^>
+echo       ^<DisallowStartIfOnBatteries^>false^</DisallowStartIfOnBatteries^>
+echo       ^<StopIfGoingOnBatteries^>false^</StopIfGoingOnBatteries^>
+echo       ^<AllowHardTerminate^>true^</AllowHardTerminate^>
+echo       ^<StartWhenAvailable^>true^</StartWhenAvailable^>
+echo       ^<RunOnlyIfNetworkAvailable^>false^</RunOnlyIfNetworkAvailable^>
+echo       ^<IdleSettings^>
+echo         ^<StopOnIdleEnd^>true^</StopOnIdleEnd^>
+echo         ^<RestartOnIdle^>false^</RestartOnIdle^>
+echo       ^</IdleSettings^>
+echo       ^<Enabled^>true^</Enabled^>
+echo       ^<Hidden^>false^</Hidden^>
+echo       ^<WakeToRun^>false^</WakeToRun^>
+echo       ^<ExecutionTimeLimit^>PT72H^</ExecutionTimeLimit^>
+echo       ^<Priority^>7^</Priority^>
+echo   ^</Settings^>
+echo   ^<Actions Context="LocalSystem"^>
+echo     ^<Exec^>
+echo       ^<Command^>wscript.exe^</Command^>
+echo       ^<Arguments^>"%VBS_DISABLE_LOGON_UI_PATH%"^</Arguments^>
+echo     ^</Exec^>
+echo   ^</Actions^>
+echo ^</Task^>
+) > "%XML_STARTUP_TASK_PATH%"
+
+echo Delete the existing scheduled task if it exists
+schtasks /delete /tn "SetDisableLogonUI" /f
+
+echo Create the scheduled task using the XML file
+schtasks /create /tn "SetDisableLogonUI" /xml "%XML_STARTUP_TASK_PATH%" /ru SYSTEM
+
+:: End new code
 
 echo Disable the boot UI
 bcdedit.exe -set {globalsettings} bootuxdisabled on
