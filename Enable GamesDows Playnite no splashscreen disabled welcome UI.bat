@@ -111,8 +111,6 @@ echo Delayed Explorer start script and VBScript created in Playnite folder.
 echo Scheduled Task added to run the script at logon.
 echo XML file for Scheduled Task created.
 
-rem Begin new code to create startup task for SetDisableLogonUI
-
 echo Creating SetDisableLogonUI.bat script
 
 SET "SET_DISABLE_LOGON_UI_BAT_NAME=SetDisableLogonUI.bat"
