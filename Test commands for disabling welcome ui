@@ -8,6 +8,10 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credentia
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Providers\{8FD7E19C-3BF7-489B-A72C-846AB3678C96}" /v Disabled /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Providers\{27GBPKG2-4NDR-576H-2JPM-67BAT5D26A9A}" /v Disabled /t REG_DWORD /d 1 /f
 
+rem Force classic logon style
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v UIHost /t REG_SZ /d "logonui.exe" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v UseNewUX /t REG_DWORD /d 0 /f
+
 rem Disable Credential Provider Filters
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\Credential Provider Filters\{D27C9D86-7207-4914-913B-0950C06BF9E6}" /v Disabled /t REG_DWORD /d 1 /f
 
