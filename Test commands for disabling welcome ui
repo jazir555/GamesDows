@@ -46,8 +46,16 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableC
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v EnableSIHostIntegration /t REG_DWORD /d 0 /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v ARSOUserConsent /t REG_DWORD /d 0 /f
 
+rem Disable Windows Hello face, fingerprint, and PIN
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v AllowDomainPINLogon /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Biometrics" /v Enabled /t REG_DWORD /d 0 /f
+
 rem Disable Shell Infrastructure Host
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\sihost.exe" /v Debugger /t REG_SZ /d "cmd.exe /c exit" /f
+
+rem Enable auto logon to bypass UI completely
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoAdminLogon /t REG_SZ /d 1 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v ForceAutoLogon /t REG_DWORD /d 1 /f
 
 rem Set autologon username and password (you'll need to replace these with actual values)
 SET /p USERNAME=Enter your Windows username:
