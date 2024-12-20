@@ -4,7 +4,7 @@ SETLOCAL EnableExtensions
 echo Setting Steam Big Picture as default shell
 
 echo Set Steam Big Picture as the default shell
-SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+SET "KEY_NAME=HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
 SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%STEAM_PATH%" /f
@@ -43,11 +43,11 @@ echo rem Check if user is logged on
 echo whoami ^| find /i "%USERNAME%" ^>nul
 echo if ERRORLEVEL 1 exit
 echo rem Set Shell back to Explorer
-echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
+echo REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo timeout /t 20 /nobreak ^>nul
 echo start C:\Windows\explorer.exe
 echo timeout /t 10 /nobreak ^>nul
-echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
+echo REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
 ) > "%SCRIPT_PATH%"
 
 
@@ -130,7 +130,7 @@ bcdedit.exe -set {globalsettings} bootuxdisabled on
 
 echo Disable Logon UI
 
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableLogonUI /t REG_DWORD /d 1 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableLogonUI /t REG_DWORD /d 1 /f
 
 echo Disable Visual Effects
 reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v VisualEffects /t REG_DWORD /d 3 /f
