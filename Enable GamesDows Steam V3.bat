@@ -116,10 +116,10 @@ echo ^</Task^>
 ) > "%XML_PATH%"
 
 echo Delete the existing scheduled task if it exists
-schtasks /delete /tn "RunDelayedExplorerStart" /f
+schtasks /delete /tn "RunDelayedExplorerStart" /f /ru "%USERNAME%"
 
 echo Create the scheduled task using the XML file
-schtasks /create /tn "RunDelayedExplorerStart" /xml "%XML_PATH%"
+schtasks /create /tn "RunDelayedExplorerStart" /xml "%XML_PATH%" /ru "%USERNAME%"
 
 echo Delayed Explorer start script and VBScript created in Steam folder.
 echo Scheduled Task added to run the script at logon.
