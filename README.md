@@ -1,4 +1,4 @@
-Transform your Windows Computer into a Video Game console first, PC second!
+Transform your Windows Computer into a Video Game console first, PC second! **New: Now with Decky Loader support!**
 
 **This script is a WIP. Currently, the main functionality works as intended. Steam Big Picture (or Playnite) launches automatically when the OS boots with high priority set as as the shell, then explorer starts automatically after a delay, which allows you to exit to desktop via the menu without needing to launch a shortcut for Explorer.exe first.**
 
