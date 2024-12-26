@@ -73,14 +73,13 @@ I will gladly take PRs to fix the 3 remaining issues if anyone knows how to solv
 **Note: If for any reason explorer doesn't start and you get a black screen and cannot view the desktop, it needs to be launched manually via task manager by launching explorer.exe. It needs to be set as the shell first before it is launched from task manager for the desktop to appear when launched a single time, otherwise it will just launch a file browser window. Due to this limitation, you must start explorer.exe twice from task manager to load the Desktop**
 
 -------------------
+# Decky Loader for Windows
 
 https://github.com/ACCESS-DENIIED/Decky-Loader-For-Windows
 
 ACCESS-DENIIED's Decky Install Scripts are now included with GamesDows! Just run the separate install-decky.bat to get Decky automatically installed and configured for Steam! **Please ensure Python and Steam have already  been installed and configured, and make sure to already be signed into Steam before running the install script for Decky!**
 
 Below is the description of these scripts from ACCESS-DENIIED's repo:
-
-# Decky Loader for Windows
 
 A Work-in-progress Python-based installer and build system for Decky Loader on Windows. This tool automates the entire process of building, installing, and configuring Decky Loader - bringing the Steam Deck's popular plugin system to Windows.
 
