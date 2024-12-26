@@ -79,6 +79,10 @@ https://github.com/ACCESS-DENIIED/Decky-Loader-For-Windows
 
 ACCESS-DENIIED's Decky Install Scripts are now included with GamesDows! Just run the separate install-decky.bat to get Decky automatically installed and configured for Steam! **Please ensure Python and Steam have already  been installed and configured, and make sure to already be signed into Steam before running the install script for Decky!**
 
+**Please make sure to check the original thread for the caveats described by ACCESS-DENIIED, the author of the Decky install scripts:**
+
+https://www.reddit.com/r/WindowsOnDeck/comments/1hl40i5/i_created_a_python_script_to_install_decky_loader/
+
 Below is the description of these scripts from ACCESS-DENIIED's repo:
 
 A Work-in-progress Python-based installer and build system for Decky Loader on Windows. This tool automates the entire process of building, installing, and configuring Decky Loader - bringing the Steam Deck's popular plugin system to Windows.
