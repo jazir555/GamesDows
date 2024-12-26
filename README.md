@@ -1,4 +1,4 @@
-Transform your Windows Computer into a Video Game console first, PC second! GamesDows is intended to emulate Steam OS's "Game Mode" as closely as possible.
+Transform your Windows Computer into a Video Game console first, PC second! GamesDows is intended to emulate Steam OS's "Game Mode" as closely as possible. 
 
 **New: Now with Decky Loader support for Windows!**
 
