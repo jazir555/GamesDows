@@ -100,5 +100,5 @@ A Work-in-progress Python-based installer and build system for Decky Loader on W
 ## Usage
 Download the files or the zip in the releases section, run the enable GamesDows script for either Steam or Playnite. 
 
-If you would also like to install Decky Loader, run "install_decky.bat" as administrator and follow the prompts.
+If you would also like to install Decky Loader, run "install_decky.bat" as administrator and follow the prompts. This script is not necessary for GamesDows to function, it enables the Decky Loader plugin system for Steam.
 
