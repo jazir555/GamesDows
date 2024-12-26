@@ -76,7 +76,7 @@ I will gladly take PRs to fix the 3 remaining issues if anyone knows how to solv
 
 https://github.com/ACCESS-DENIIED/Decky-Loader-For-Windows
 
-ACCESS-DENIIED's Decky Install Scripts are now included with GamesDows! Just run the separate install-decky.bat to get Decky automatically installed and configured for Steam! **Please ensure Python and Steam have already  been installed and configured, and make sure to already be signed into Steam before running the install script for Decky!**.
+ACCESS-DENIIED's Decky Install Scripts are now included with GamesDows! Just run the separate install-decky.bat to get Decky automatically installed and configured for Steam! **Please ensure Python and Steam have already  been installed and configured, and make sure to already be signed into Steam before running the install script for Decky!**
 
 Below is the description of these scripts from ACCESS-DENIIED's repo:
 
