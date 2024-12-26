@@ -98,5 +98,7 @@ A Work-in-progress Python-based installer and build system for Decky Loader on W
 - Internet connection for downloading dependencies
 
 ## Usage
-Download the files or the zip in the releases section, run "install_decky.bat" and follow the prompts.
+Download the files or the zip in the releases section, run the enable GamesDows script for either Steam or Playnite. 
+
+If you would also like to install Decky Loader, run "install_decky.bat" as administrator and follow the prompts.
 
