@@ -98,5 +98,5 @@ A Work-in-progress Python-based installer and build system for Decky Loader on W
 - Internet connection for downloading dependencies
 
 ## Usage
-Download files / zip, run "install_decky.bat" and follow the prompts.
+Download the files or the zip in the releases section, run "install_decky.bat" and follow the prompts.
 
