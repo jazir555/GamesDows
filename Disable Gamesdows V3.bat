@@ -1,7 +1,7 @@
 @echo off
 SETLOCAL EnableExtensions EnableDelayedExpansion
 
-:: --- Paths that might exist for Steam ---
+:: Paths for Steam
 SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
 SET "STEAM_SCRIPT_NAME=DelayedExplorerStart.bat"
 SET "STEAM_SCRIPT_PATH=%STEAM_FOLDER%\%STEAM_SCRIPT_NAME%"
@@ -10,7 +10,7 @@ SET "STEAM_VBS_PATH=%STEAM_FOLDER%\%STEAM_VBS_NAME%"
 SET "STEAM_XML_NAME=DelayedExplorerStartTask.xml"
 SET "STEAM_XML_PATH=%STEAM_FOLDER%\%STEAM_XML_NAME%"
 
-:: --- Paths that might exist for Playnite ---
+:: Paths for Playnite
 SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
 SET "PLAYNITE_SCRIPT_NAME=DelayedExplorerStart.bat"
 SET "PLAYNITE_SCRIPT_PATH=%PLAYNITE_FOLDER%\%PLAYNITE_SCRIPT_NAME%"
