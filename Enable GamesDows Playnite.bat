@@ -3,7 +3,7 @@ SETLOCAL EnableExtensions
 
 echo Setting Playnite as default shell
 
-SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+SET "KEY_NAME=HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
 SET "PLAYNITE_FOLDER=%LOCALAPPDATA%\Playnite"
 SET "PLAYNITE_PATH=%LOCALAPPDATA%\Playnite\Playnite.FullscreenApp.exe"
@@ -26,11 +26,11 @@ echo rem Check if user is logged on
 echo whoami ^| find /i "%USERNAME%" ^>nul
 echo if ERRORLEVEL 1 exit
 echo rem Set Shell back to Explorer
-echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
+echo REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo timeout /t 20 /nobreak ^>nul
 echo start C:\Windows\explorer.exe
 echo timeout /t 10 /nobreak ^>nul
-echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%PLAYNITE_PATH%" /f
+echo REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%PLAYNITE_PATH%" /f
 ) > "%SCRIPT_PATH%"
 
 
@@ -97,10 +97,10 @@ echo ^</Task^>
 ) > "%XML_PATH%"
 
 echo Delete the existing scheduled task if it exists
-schtasks /delete /tn "RunDelayedExplorerStart" /f
+schtasks /delete /tn "RunDelayedExplorerStart" /f /ru "%USERNAME%"
 
 echo Create the scheduled task using the XML file
-schtasks /create /tn "RunDelayedExplorerStart" /xml "%XML_PATH%"
+schtasks /create /tn "RunDelayedExplorerStart" /xml "%XML_PATH%" /ru "%USERNAME%"
 
 echo Delayed Explorer start script and VBScript created in Playnite folder.
 echo Scheduled Task added to run the script at logon.
@@ -111,7 +111,7 @@ bcdedit.exe -set {globalsettings} bootuxdisabled on
 
 echo Disable Logon UI
 
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableLogonUI /t REG_DWORD /d 1 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DisableLogonUI /t REG_DWORD /d 1 /f
 
 echo Disable Visual Effects
 reg add "HKEY_CURRENT_USER\Control Panel\Desktop" /v VisualEffects /t REG_DWORD /d 3 /f
