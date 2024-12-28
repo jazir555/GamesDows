@@ -49,7 +49,7 @@ echo timeout /t 20 /nobreak ^>nul
 echo rem Launch Explorer minimized without stealing focus by using a temporary VBScript
 echo set "TempVBS=%%TEMP%%\LaunchExplorerMinimized.vbs"
 echo (echo Set WshShell = CreateObject("WScript.Shell"))>"%%TempVBS%%"
-echo (echo ' 7 = Minimized & no focus) >>"%%TempVBS%%"
+echo (echo ' 7 = Minimized ^& no focus) >>"%%TempVBS%%"
 echo (echo WshShell.Run "explorer.exe", 7, False)>>"%%TempVBS%%"
 echo (echo Set WshShell = Nothing)>>"%%TempVBS%%"
 echo cscript //nologo "%%TempVBS%%"
