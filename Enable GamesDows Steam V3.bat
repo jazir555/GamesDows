@@ -40,7 +40,7 @@ echo Create the DelayedExplorerStart.bat script in the Steam folder
 (
 echo @echo off
 echo rem Check if user is logged on
-echo whoami ^| find /i "%%USERNAME%%" ^>nul
+whoami ^| find /i "\%%USERNAME%%" ^>nul
 echo if ERRORLEVEL 1 exit
 echo rem Set Shell back to Explorer
 echo REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%%EXPLORER_PATH%%" /f
