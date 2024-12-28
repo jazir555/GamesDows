@@ -1,5 +1,5 @@
 @echo off
-SETLOCAL EnableExtensions
+SETLOCAL EnableExtensions EnableDelayedExpansion
 
 echo Setting Steam Big Picture as default shell
 
@@ -8,9 +8,6 @@ SET "KEY_NAME=HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
 SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%STEAM_PATH%" /f
-
-@echo off
-SETLOCAL EnableExtensions EnableDelayedExpansion
 
 echo Define the default Steam folder path and script names
 SET "STEAM_FOLDER=C:\Program Files (x86)\Steam"
