@@ -39,16 +39,15 @@ echo Creating DelayedExplorerStart.bat script
 echo Create the DelayedExplorerStart.bat script in the Steam folder
 (
 echo @echo off
-echo rem Check if user is logged on
-whoami ^| find /i "\%USERNAME%" ^>nul
+echo Check if user is logged on
+echo query user ^| find /i "%USERNAME%" ^>nul
 echo if ERRORLEVEL 1 exit
-echo rem Set Shell back to Explorer
-echo REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%%EXPLORER_PATH%%" /f
+echo Set Shell back to Explorer
+echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo timeout /t 20 /nobreak ^>nul
-echo rem Launch Explorer minimized without stealing focus by using a temporary VBScript
-mshta "vbscript:CreateObject(""WScript.Shell"").Run(""explorer.exe"",7,false):window.close"
+echo start C:\Windows\explorer.exe
 echo timeout /t 10 /nobreak ^>nul
-echo REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%%STEAM_PATH%%" /f
+echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%STEAM_PATH%" /f
 ) > "%SCRIPT_PATH%"
 
 
