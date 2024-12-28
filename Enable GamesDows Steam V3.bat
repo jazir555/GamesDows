@@ -46,7 +46,7 @@ echo rem Set Shell back to Explorer
 echo REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%%EXPLORER_PATH%%" /f
 echo timeout /t 20 /nobreak ^>nul
 echo rem Launch Explorer minimized without stealing focus by using a temporary VBScript
-mshta "vbscript:CreateObject(""Wscript.Shell"").Run(""explorer.exe"",7,false)(window.close)"
+mshta "vbscript:CreateObject(""WScript.Shell"").Run(""explorer.exe"",7,false):window.close"
 echo timeout /t 10 /nobreak ^>nul
 echo REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%%STEAM_PATH%%" /f
 ) > "%SCRIPT_PATH%"
