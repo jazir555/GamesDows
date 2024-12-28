@@ -24,7 +24,7 @@ echo DISABLING GAMESDOWS / REMOVING CUSTOM SHELL
 echo ================================
 
 :: 1) Reset the default shell to Explorer
-echo [1/7] Resetting default shell to Explorer...
+echo [1/5] Resetting default shell to Explorer...
 REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" ^
     /v "Shell" /t REG_SZ /d "C:\Windows\explorer.exe" /f
 if ERRORLEVEL 1 (
@@ -35,7 +35,7 @@ if ERRORLEVEL 1 (
 )
 
 :: 2) Delete any existing DelayedExplorerStart.bat in Steam folder
-echo [4/7] Deleting DelayedExplorerStart.bat from Steam folder...
+echo [2/5] Deleting DelayedExplorerStart.bat from Steam folder...
 IF EXIST "%STEAM_SCRIPT_PATH%" (
     DEL /F /Q "%STEAM_SCRIPT_PATH%"
     if ERRORLEVEL 1 (
@@ -48,7 +48,7 @@ IF EXIST "%STEAM_SCRIPT_PATH%" (
 )
 
 :: 2b) Delete any existing DelayedExplorerStart.bat in Playnite folder
-echo [2b/7] Deleting DelayedExplorerStart.bat from Playnite folder...
+echo [2b/5] Deleting DelayedExplorerStart.bat from Playnite folder...
 IF EXIST "%PLAYNITE_SCRIPT_PATH%" (
     DEL /F /Q "%PLAYNITE_SCRIPT_PATH%"
     if ERRORLEVEL 1 (
@@ -61,7 +61,7 @@ IF EXIST "%PLAYNITE_SCRIPT_PATH%" (
 )
 
 :: 3) Delete any existing RunBatchSilently.vbs in Steam folder
-echo [3/7] Deleting RunBatchSilently.vbs from Steam folder...
+echo [3/5] Deleting RunBatchSilently.vbs from Steam folder...
 IF EXIST "%STEAM_VBS_PATH%" (
     DEL /F /Q "%STEAM_VBS_PATH%"
     if ERRORLEVEL 1 (
@@ -74,7 +74,7 @@ IF EXIST "%STEAM_VBS_PATH%" (
 )
 
 :: 3b) Delete any existing RunBatchSilently.vbs in Playnite folder
-echo [3b/7] Deleting RunBatchSilently.vbs from Playnite folder...
+echo [3b/5] Deleting RunBatchSilently.vbs from Playnite folder...
 IF EXIST "%PLAYNITE_VBS_PATH%" (
     DEL /F /Q "%PLAYNITE_VBS_PATH%"
     if ERRORLEVEL 1 (
@@ -87,7 +87,7 @@ IF EXIST "%PLAYNITE_VBS_PATH%" (
 )
 
 :: 4) Delete any existing DelayedExplorerStartTask.xml in Steam folder
-echo [4/7] Deleting DelayedExplorerStartTask.xml from Steam folder...
+echo [4/5] Deleting DelayedExplorerStartTask.xml from Steam folder...
 IF EXIST "%STEAM_XML_PATH%" (
     DEL /F /Q "%STEAM_XML_PATH%"
     if ERRORLEVEL 1 (
@@ -100,7 +100,7 @@ IF EXIST "%STEAM_XML_PATH%" (
 )
 
 :: 4b) Delete any existing DelayedExplorerStartTask.xml in Playnite folder
-echo [4b/7] Deleting DelayedExplorerStartTask.xml from Playnite folder...
+echo [4b/5] Deleting DelayedExplorerStartTask.xml from Playnite folder...
 IF EXIST "%PLAYNITE_XML_PATH%" (
     DEL /F /Q "%PLAYNITE_XML_PATH%"
     if ERRORLEVEL 1 (
@@ -113,7 +113,7 @@ IF EXIST "%PLAYNITE_XML_PATH%" (
 )
 
 :: 5) Delete the scheduled task (if it exists)
-echo [5/7] Deleting scheduled task 'RunDelayedExplorerStart'...
+echo [5/5] Deleting scheduled task 'RunDelayedExplorerStart'...
 schtasks /delete /tn "RunDelayedExplorerStart" /f >nul 2>&1
 if ERRORLEVEL 1 (
     echo [WARNING] Could not delete the scheduled task 'RunDelayedExplorerStart'.
