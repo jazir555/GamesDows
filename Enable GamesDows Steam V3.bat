@@ -125,7 +125,7 @@ echo ^</Task^>
 ) > "%XML_PATH%"
 
 echo Delete the existing scheduled task if it exists
-schtasks /delete /tn "RunDelayedExplorerStart" /f /ru "%USERNAME%"
+schtasks /delete /tn "RunDelayedExplorerStart" /f 
 
 echo Create the scheduled task using the XML file
 schtasks /create /tn "RunDelayedExplorerStart" /xml "%XML_PATH%" /ru "%USERNAME%"
