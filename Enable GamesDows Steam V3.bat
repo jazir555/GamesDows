@@ -1,6 +1,15 @@
 @echo off
 SETLOCAL EnableExtensions EnableDelayedExpansion
-
+echo Checking for administrative privileges
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ====================================================
+    echo This script must be run with administrative privileges.
+    echo Please right-click on the script and select "Run as administrator."
+    echo ====================================================
+    pause
+    exit /b
+)
 echo Setting Steam Big Picture as default shell
 
 echo Set Steam Big Picture as the default shell
