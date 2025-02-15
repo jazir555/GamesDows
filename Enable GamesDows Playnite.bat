@@ -1,5 +1,16 @@
 @echo off
 SETLOCAL EnableExtensions
+@echo off
+echo Checking for administrative privileges
+net session >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ====================================================
+    echo This script must be run with administrative privileges.
+    echo Please right-click on the script and select "Run as administrator."
+    echo ====================================================
+    pause
+    exit /b
+)
 
 echo Setting Playnite as default shell
 
