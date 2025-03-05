@@ -25,7 +25,7 @@ echo ================================
 
 :: 1) Reset the default shell to Explorer
 echo [1/5] Resetting default shell to Explorer...
-REG ADD "HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" ^
+REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" ^
     /v "Shell" /t REG_SZ /d "C:\Windows\explorer.exe" /f
 if ERRORLEVEL 1 (
     echo [ERROR] Failed to reset the default shell.
