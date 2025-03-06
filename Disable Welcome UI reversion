@@ -1,0 +1,92 @@
+@echo off
+:: Windows 11 Welcome UI Restore
+:: This script reverts all changes made by the Windows 11 Welcome UI Disabler
+:: IMPORTANT: Run as administrator
+
+echo Checking for administrative privileges...
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+if '%errorlevel%' NEQ '0' (
+    echo This script requires administrative privileges.
+    echo Please right-click and select "Run as administrator"
+    pause
+    exit /b 1
+)
+
+echo.
+echo ============================================================
+echo    Windows 11 Welcome UI Animation Restore
+echo ============================================================
+echo.
+echo This script will restore the Windows 11 welcome animation
+echo by reverting all changes made by the UI Disabler script.
+echo.
+echo Press any key to continue or Ctrl+C to cancel...
+pause >nul
+
+echo.
+echo [1/7] Restoring Welcome UI processes (removing IFEO settings)...
+:: Remove IFEO settings that prevented UI processes from starting
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LogonUI.exe" /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\ShellExperienceHost.exe" /f 2>nul
+
+echo.
+echo [2/7] Removing scheduled task that kills welcome UI processes...
+:: Remove the scheduled task
+schtasks /delete /tn "KillWelcomeUI" /f 2>nul
+
+echo.
+echo [3/7] Restoring logon UI animations and preloading...
+:: Restore animation and preloading settings to defaults
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" /v DisableStartupSound /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" /v OptimizeBootAnimationEffects /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\AnimationPreload" /v Enabled /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\AnimationPreload" /v PreloadSplashScreen /f 2>nul
+
+echo.
+echo [4/7] Restoring logon UI timing and behavior...
+:: Restore UI timing and display settings
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\UIHost" /v "LogonUIMaximumDisableTime" /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DelayedDesktopSwitchTimeout /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\TestHooks" /v DisplayInitialPageDelay /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\TestHooks" /v XamlInitialPageDelay /f 2>nul
+
+echo.
+echo [5/7] Restoring credential UI components...
+:: Restore credential UI components
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLogonUI /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\ProcessInit" /v Enabled /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockScreenMedia /f 2>nul
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableLogonBackgroundImage /f 2>nul
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableAcrylicBackgroundOnLogon /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\Background" /v OEMBackground /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\Creative" /v OEMBackground /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v DisableLogonBackgroundImage /f 2>nul
+
+echo.
+echo [6/7] Restoring autologon settings to defaults...
+:: Restore autologon settings to defaults
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoLogonCount /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoLogonTimeout /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v UIHost /f 2>nul
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v UseNewUX /f 2>nul
+
+echo.
+echo [7/7] Restoring group policy settings...
+:: Restore group policy settings
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableLogonUIBootAnimation /f 2>nul
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v HideLogonUI /f 2>nul
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen /f 2>nul
+
+:: Remove the LogonUIDisabled marker file
+echo Removing LogonUIDisabled marker file...
+if exist "%WINDIR%\System32\LogonUIDisabled" del "%WINDIR%\System32\LogonUIDisabled" 2>nul
+
+echo.
+echo ============================================================
+echo    Windows 11 Welcome UI Restoration Complete
+echo ============================================================
+echo.
+echo All settings have been restored to Windows defaults.
+echo Please restart your computer for changes to take effect.
+echo.
+pause
