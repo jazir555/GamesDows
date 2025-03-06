@@ -1,0 +1,83 @@
+@echo off
+echo Applying enhanced Windows 11 welcome UI suppression...
+
+:: Create a black screen logon background
+echo Creating minimal logon background...
+mkdir "%WINDIR%\System32\oobe\info\backgrounds" 2>nul
+copy "%~dp0black.jpg" "%WINDIR%\System32\oobe\info\backgrounds\backgroundDefault.jpg" /y
+
+:: Force silent boot with no animation
+echo Configuring silent boot...
+bcdedit /set {current} bootuxdisabled on
+bcdedit /set {current} quietboot yes
+bcdedit /set {current} nointegritychecks yes
+
+:: Advanced registry modifications to disable logon animations
+echo Applying advanced registry modifications...
+
+:: Disable logon UI process preloading
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\PreloadCharacteristics" /v LoadBackground /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\PreloadCharacteristics" /v LoadUserImageCapture /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\PreloadCharacteristics" /v LoadIdentityCapabilities /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\PreloadCharacteristics" /v LoadTrustedWindowBroker /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\PreloadCharacteristics" /v LoadWin32BrokerDll /t REG_DWORD /d 0 /f
+
+:: Disable animation orchestrator
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\AnimationPreload" /v Enabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\AnimationPreload" /v PreloadSplashScreen /t REG_DWORD /d 0 /f
+
+:: Set core UI to classic mode
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\CoreUIMode" /v UseModernFlows /t REG_DWORD /d 0 /f
+
+:: Force the animation timings to zero
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" /v DisableStartupSound /t REG_DWORD /d 1 /f  
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" /v OptimizeBootAnimationEffects /t REG_DWORD /d 1 /f
+
+:: Disable all Windows animation effects
+reg add "HKCU\Control Panel\Desktop" /v UserPreferencesMask /t REG_BINARY /d 9012078010000000 /f
+reg add "HKCU\Control Panel\Desktop\WindowMetrics" /v MinAnimate /t REG_SZ /d 0 /f
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarAnimations /t REG_DWORD /d 0 /f
+reg add "HKCU\Software\Microsoft\Windows\DWM" /v EnableAeroPeek /t REG_DWORD /d 0 /f
+reg add "HKCU\Software\Microsoft\Windows\DWM" /v AlwaysHibernateThumbnails /t REG_DWORD /d 0 /f
+reg add "HKCU\Software\Microsoft\Windows\DWM" /v AnimationAttributionEnabled /t REG_DWORD /d 0 /f
+
+:: Set instant logon with no delays
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DelayedDesktopSwitchTimeout /t REG_DWORD /d 0 /f
+
+:: Disable logon UI processes with Image File Execution Options
+echo Disabling LogonUI processes...
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\LogonUI.exe" /v DelayedAutostart /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\authui.dll" /v DisableNXShowUI /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\logonui.dll" /v DisableNXShowUI /t REG_DWORD /d 1 /f
+
+:: Disable credential UI components
+echo Disabling credential UI components...
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockScreenMedia /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableAcrylicBackgroundOnLogon /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableLogonBackgroundImage /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\Creative" /v OEMBackground /t REG_DWORD /d 0 /f
+
+:: Set the fastest auto-logon speed
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoLogonCount /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoLogonTimeout /t REG_DWORD /d 0 /f
+
+:: Force direct autologon - maximize chances of bypassing animation
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoAdminLogon /t REG_SZ /d 1 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v ForceAutoLogon /t REG_DWORD /d 1 /f
+
+:: Disable the shell during logon to prevent animation
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v EnableUIADesktopToggle /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v UIADesktopVisible /t REG_DWORD /d 0 /f
+
+:: Set up group policy settings (if applicable)
+echo Setting group policies...
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableLogonUIBootAnimation /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v HideLogonUI /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v DisableUserWithNoAnimations /t REG_DWORD /d 1 /f
+
+:: Use Task Scheduler to kill logonui.exe right after logon
+echo Creating logon task to suppress UI...
+schtasks /create /tn "KillLogonUI" /tr "taskkill /f /im LogonUI.exe" /sc onlogon /ru "SYSTEM" /rl highest /f
+
+echo Complete. Please restart to apply changes.
