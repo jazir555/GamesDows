@@ -27,7 +27,7 @@ echo Setting Steam Big Picture as default shell
 
 
 echo Set Steam Big Picture as the default shell
-SET "KEY_NAME=HKCU\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+SET "KEY_NAME=HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 SET "VALUE_NAME=Shell"
 SET "STEAM_PATH=C:\Program Files (x86)\Steam\Steam.exe -bigpicture -nobootstrapupdate -skipinitialbootstrap -skipverifyfiles"
 REG ADD "%KEY_NAME%" /v %VALUE_NAME% /t REG_SZ /d "%STEAM_PATH%" /f
