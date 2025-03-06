@@ -1,16 +1,26 @@
 @echo off
-SETLOCAL EnableExtensions
-@echo off
-echo Checking for administrative privileges
-net session >nul 2>&1
-if %errorlevel% neq 0 (
-    echo ====================================================
-    echo This script must be run with administrative privileges.
-    echo Please right-click on the script and select "Run as administrator."
-    echo ====================================================
-    pause
-    exit /b
+:: Self-elevating Admin script
+:: This script will automatically request admin rights if not running as admin
+
+:: Check for admin rights and self-elevate if needed
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+if '%errorlevel%' NEQ '0' (
+    echo Requesting administrative privileges...
+    goto UACPrompt
+) else (
+    goto GotAdmin
 )
+
+:UACPrompt
+    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+    "%temp%\getadmin.vbs"
+    exit /B
+
+:GotAdmin
+    if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs"
+    pushd "%CD%"
+    CD /D "%~dp0"
 
 echo Setting Playnite as default shell
 
