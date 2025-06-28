@@ -48,7 +48,7 @@ echo if ERRORLEVEL 1 exit
 echo rem Set Shell back to Explorer
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%EXPLORER_PATH%" /f
 echo timeout /t 20 /nobreak ^>nul
-echo powershell -WindowStyle Hidden -NoProfile -Command "Start-Process explorer.exe"
+echo start "" "%EXPLORER_PATH%"
 echo timeout /t 10 /nobreak ^>nul
 echo REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Shell /t REG_SZ /d "%PLAYNITE_PATH%" /f
 ) > "%SCRIPT_PATH%"
