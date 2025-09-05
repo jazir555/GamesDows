@@ -70,7 +70,7 @@ What remains to be fixed:
 
 I will gladly take PRs to fix the 3 remaining issues if anyone knows how to solve them.
 
-**Note: If for any reason explorer doesn't start and you get a black screen and cannot view the desktop, it needs to be launched manually via task manager by launching explorer.exe. It needs to be set as the shell first before it is launched from task manager for the desktop to appear when launched a single time, otherwise it will just launch a file browser window. Due to this limitation, you must start explorer.exe twice from task manager to load the Desktop**
+**Note: If for any reason explorer doesn't start and you get a black screen and cannot view the desktop, it needs to be launched manually via task manager by launching explorer.exe. It needs to be set as the shell first in the registry before it is launched from task manager for the desktop to appear when launched a single time, otherwise it will just launch a file browser window. Due to this limitation, you must start explorer.exe twice from task manager to load the Desktop**
 
 -------------------
 # Decky Loader for Windows
