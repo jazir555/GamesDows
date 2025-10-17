@@ -1,7 +1,5 @@
 Transform your Windows Computer into a Video Game console first, PC second! GamesDows is intended to emulate Steam OS's "Game Mode" as closely as possible. 
 
-**New: Now with Decky Loader support for Windows!**
-
 **This script is a WIP. Currently, the main functionality works as intended. Steam Big Picture (or Playnite) launches automatically when the OS boots with high priority set as as the shell, then explorer starts automatically after a delay, which allows you to exit to desktop via the menu without needing to launch a shortcut for Explorer.exe first.**
 
 **Note: Steam or Playnite must be installed, you must be signed in to Steam if using the Steam variant, and finally the Steam Autostart entry in task manager must be disabled/deleted before running the script.**
