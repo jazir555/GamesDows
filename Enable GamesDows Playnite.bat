@@ -88,7 +88,7 @@ echo   ^</Triggers^>
 echo   ^<Principals^>
 echo     ^<Principal id="Author"^>
 echo       ^<UserId^>%USERNAME%</UserId^>
-echo       ^<LogonType^>InteractiveToken^</LogonType^>
+echo       ^<LogonType>InteractiveToken</LogonType>
 echo       ^<RunLevel^>HighestAvailable^</RunLevel^>
 echo     ^</Principal^>
 echo   ^</Principals^>
@@ -122,7 +122,7 @@ echo Delete the existing scheduled task if it exists
 schtasks /delete /tn "RunDelayedExplorerStart" /f /ru "%USERNAME%"
 
 echo Create the scheduled task using the XML file
-schtasks /create /tn "RunDelayedExplorerStart" /xml "%XML_PATH%" /ru "%USERNAME%"
+schtasks /create /tn "RunDelayedExplorerStart" /xml "%XML_PATH%" /ru "%USERNAME%" /rp ""
 
 echo Delayed Explorer start script and VBScript created in Playnite folder.
 echo Scheduled Task added to run the script at logon.
