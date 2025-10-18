@@ -79,49 +79,49 @@ echo Delete the existing XML file if it exists
 IF EXIST "%XML_PATH%" DEL "%XML_PATH%"
 
 (
-echo ^<?xml version="1.0" encoding="UTF-16"?^>
-echo ^<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"^>
-echo   ^<RegistrationInfo^>
-echo     ^<Date^>2020-01-01T00:00:00^</Date^>
-echo     ^<Author^>"%USERNAME%"^</Author^>
-echo     ^<Description^>Run DelayedExplorerStart.bat at logon.^</Description^>
-echo   ^</RegistrationInfo^>
-echo   ^<Triggers^>
-echo     ^<LogonTrigger^>
-echo       ^<Enabled^>true^</Enabled^>
-echo     ^</LogonTrigger^>
-echo   ^</Triggers^>
-echo   ^<Principals^>
-echo     ^<Principal id="Author"^>
-echo       ^<UserId^>%USERNAME%</UserId^>
-echo       ^<LogonType>InteractiveToken</LogonType>
-echo       ^<RunLevel^>HighestAvailable^</RunLevel^>
-echo     ^</Principal^>
-echo   ^</Principals^>
-echo   ^<Settings^>
-echo       ^<MultipleInstancesPolicy^>IgnoreNew^</MultipleInstancesPolicy^>
-echo       ^<DisallowStartIfOnBatteries^>false^</DisallowStartIfOnBatteries^>
-echo       ^<StopIfGoingOnBatteries^>false^</StopIfGoingOnBatteries^>
-echo       ^<AllowHardTerminate^>true^</AllowHardTerminate^>
-echo       ^<StartWhenAvailable^>true^</StartWhenAvailable^>
-echo       ^<RunOnlyIfNetworkAvailable^>false^</RunOnlyIfNetworkAvailable^>
-echo       ^<IdleSettings^>
-echo         ^<StopOnIdleEnd^>true^</StopOnIdleEnd^>
-echo         ^<RestartOnIdle^>false^</RestartOnIdle^>
-echo       ^</IdleSettings^>
-echo       ^<Enabled^>true^</Enabled^>
-echo       ^<Hidden^>false^</Hidden^>
-echo       ^<WakeToRun^>false^</WakeToRun^>
-echo       ^<ExecutionTimeLimit^>PT72H^</ExecutionTimeLimit^>
-echo       ^<Priority^>7^</Priority^>
-echo   ^</Settings^>
-echo   ^<Actions Context="Author"^>
-echo     ^<Exec^>
-echo       ^<Command^>wscript.exe^</Command^>
-echo       ^<Arguments^>"%VBS_PATH%"^</Arguments^>
-echo     ^</Exec^>
-echo   ^</Actions^>
-echo ^</Task^>
+echo(<?xml version="1.0" encoding="UTF-16"?>
+echo(^<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"^>
+echo(  ^<RegistrationInfo^>
+echo(    ^<Date^>2020-01-01T00:00:00^</Date^>
+echo(    ^<Author^>!USERNAME!^</Author^>
+echo(    ^<Description^>Run DelayedExplorerStart.bat at logon.^</Description^>
+echo(  ^</RegistrationInfo^>
+echo(  ^<Triggers^>
+echo(    ^<LogonTrigger^>
+echo(      ^<Enabled^>true^</Enabled^>
+echo(    ^</LogonTrigger^>
+echo(  ^</Triggers^>
+echo(  ^<Principals^>
+echo(    ^<Principal id="Author"^>
+echo(      ^<UserId^>!USERNAME!^</UserId^>
+echo(      ^<LogonType^>InteractiveToken^</LogonType^>
+echo(      ^<RunLevel^>HighestAvailable^</RunLevel^>
+echo(    ^</Principal^>
+echo(  ^</Principals^>
+echo(  ^<Settings^>
+echo(    ^<MultipleInstancesPolicy^>IgnoreNew^</MultipleInstancesPolicy^>
+echo(    ^<DisallowStartIfOnBatteries^>false^</DisallowStartIfOnBatteries^>
+echo(    ^<StopIfGoingOnBatteries^>false^</StopIfGoingOnBatteries^>
+echo(    ^<AllowHardTerminate^>true^</AllowHardTerminate^>
+echo(    ^<StartWhenAvailable^>true^</StartWhenAvailable^>
+echo(    ^<RunOnlyIfNetworkAvailable^>false^</RunOnlyIfNetworkAvailable^>
+echo(    ^<IdleSettings^>
+echo(      ^<StopOnIdleEnd^>true^</StopOnIdleEnd^>
+echo(      ^<RestartOnIdle^>false^</RestartOnIdle^>
+echo(    ^</IdleSettings^>
+echo(    ^<Enabled^>true^</Enabled^>
+echo(    ^<Hidden^>false^</Hidden^>
+echo(    ^<WakeToRun^>false^</WakeToRun^>
+echo(    ^<ExecutionTimeLimit^>PT72H^</ExecutionTimeLimit^>
+echo(    ^<Priority^>7^</Priority^>
+echo(  ^</Settings^>
+echo(  ^<Actions Context="Author"^>
+echo(    ^<Exec^>
+echo(      ^<Command^>wscript.exe^</Command^>
+echo(      ^<Arguments^>"!VBS_PATH!"^</Arguments^>
+echo(    ^</Exec^>
+echo(  ^</Actions^>
+echo(^</Task^>
 ) > "%XML_PATH%"
 
 echo Delete the existing scheduled task if it exists
