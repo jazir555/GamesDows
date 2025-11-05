@@ -70,34 +70,6 @@ I will gladly take PRs to fix the 3 remaining issues if anyone knows how to solv
 
 **Note: If for any reason explorer doesn't start and you get a black screen and cannot view the desktop, it needs to be launched manually via task manager by launching explorer.exe. It needs to be set as the shell first in the registry before it is launched from task manager for the desktop to appear when launched a single time, otherwise it will just launch a file browser window. Due to this limitation, you must start explorer.exe twice from task manager to load the Desktop**
 
--------------------
-# Decky Loader for Windows
-
-https://github.com/ACCESS-DENIIED/Decky-Loader-For-Windows
-
-ACCESS-DENIIED's Decky Install Scripts are now included with GamesDows! Just run the separate install-decky.bat to get Decky automatically installed and configured for Steam! **Please ensure Python and Steam have already  been installed and configured, and make sure to already be signed into Steam before running the install script for Decky!**
-
-**Please make sure to check the original thread for the caveats described by ACCESS-DENIIED, the author of the Decky install scripts:**
-
-https://www.reddit.com/r/WindowsOnDeck/comments/1hl40i5/i_created_a_python_script_to_install_decky_loader/
-
-Below is the description of these scripts from ACCESS-DENIIED's repo:
-
-A Work-in-progress Python-based installer and build system for Decky Loader on Windows. This tool automates the entire process of building, installing, and configuring Decky Loader - bringing the Steam Deck's popular plugin system to Windows.
-
-## Features
-- 🚀 Simple installation and build process
-- ⚙️ Automatic dependency management (Node.js, npm, pnpm, Python)
-- 🔧 Configures Steam for plugin development
-- 🏃‍♂️ Sets up autostart for PluginLoader
-- 📁 Creates proper homebrew directory structure
-- 💻 Builds both console and GUI executables
-
-## Requirements
-- Windows 10/11
-- Steam installation
-- Internet connection for downloading dependencies
-
 ## Usage
 Download the files or the zip in the releases section, run the Enable GamesDows script for either Steam or Playnite. 
 
