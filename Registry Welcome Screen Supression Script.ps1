@@ -349,5 +349,5 @@ if ($restart -eq 'Y') {
     Restart-Computer -Force
 } else {
     Write-Warning "`nRestart your computer manually for all changes to take effect."
-    Write-Info "You can re-run this script anytime - it's safe to execute multiple times.`n"
+    Write-Info "You can re-run this script anytime - it's safe to execute multiple times."
 }
