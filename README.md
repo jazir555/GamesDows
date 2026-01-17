@@ -73,5 +73,4 @@ I will gladly take PRs to fix the 3 remaining issues if anyone knows how to solv
 ## Usage
 Download the files or the zip in the releases section, run the Enable GamesDows script for either Steam or Playnite. 
 
-If you would also like to install Decky Loader, run "install_decky.bat" as administrator and follow the prompts. This script is not necessary for GamesDows to function, it enables the Decky Loader plugin system for Steam. I've included it in this project as it brings Windows one step closer to Steam OS functionality.
 
