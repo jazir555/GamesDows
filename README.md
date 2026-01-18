@@ -49,7 +49,9 @@ Deletes any existing scheduled task with the same name and creates a new one usi
 
 Configures Windows to automatically log in with the current user account (AutoAdminLogon).
 
-**Sets an empty default password for automatic logon (DefaultPassword). If you have a password, please insert it into the empty quotation marks in the batch script inside this command. This is the command that inputs the user password, it is set to be blank by default.** I have put a placeholder in the script breakdown here for clarity:
+**Sets an empty default password for automatic logon (DefaultPassword). If you have a password, please insert it into the empty quotation marks in the batch script inside this command. This is the command that inputs the user password, it is set to be blank by default.** 
+
+I have put a placeholder in the script breakdown here for clarity:
 
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultPassword /t REG_SZ /d "YourPasswordGoesHere" /f
 
