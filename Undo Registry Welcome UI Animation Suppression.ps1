@@ -51,7 +51,7 @@ function Remove-RegValue {
             $prop = Get-ItemProperty -Path $Path -Name $Name -ErrorAction SilentlyContinue
             if ($prop) {
                 Remove-ItemProperty -Path $Path -Name $Name -Force -ErrorAction Stop
-                if (-not $Suppress) { Write-Success "  [✓] Removed: $Name" }
+                if (-not $Suppress) { Write-Success "  [OK] Removed: $Name" }
                 return $true
             }
         }
@@ -213,7 +213,7 @@ foreach ($sid in $allSIDs) {
     if (Remove-RegValue -Path "$userRoot\Control Panel\Accessibility\StickyKeys" -Name "Flags" -Suppress) { $removed++ }
     
     if ($removed -gt 0) {
-        Write-Success "  [✓] $displayName - Removed $removed setting(s)"
+        Write-Success "  [OK] $displayName - Removed $removed setting(s)"
         $revertedUsers++
     } else {
         Write-Info "  [i] $displayName - No settings found"
@@ -248,7 +248,7 @@ foreach ($svc in $servicesToRestore.Keys) {
                 Start-Service -Name $svc -ErrorAction SilentlyContinue
             }
             
-            Write-Success "  [✓] Restored: $svc ($startupType)"
+            Write-Success "  [OK] Restored: $svc ($startupType)"
             $restoredCount++
         }
     } catch {
@@ -259,7 +259,7 @@ foreach ($svc in $servicesToRestore.Keys) {
 if ($restoredCount -eq 0) {
     Write-Info "  [i] No disabled services found to restore"
 } else {
-    Write-Success "  [✓] Restored $restoredCount service(s)"
+    Write-Success "  [OK] Restored $restoredCount service(s)"
 }
 
 #endregion
@@ -271,7 +271,7 @@ Write-Info "`n=== RESTORING BOOT CONFIGURATION ===`n"
 try {
     bcdedit /set bootux standard | Out-Null
     if ($LASTEXITCODE -eq 0) {
-        Write-Success "  [✓] Re-enabled boot graphics"
+        Write-Success "  [OK] Re-enabled boot graphics"
     } else {
         Write-Warning "  [!] Could not modify boot configuration"
     }
@@ -292,7 +292,7 @@ $existingTask = Get-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Error
 if ($existingTask) {
     try {
         Unregister-ScheduledTask -TaskName $taskName -TaskPath $taskPath -Confirm:$false -ErrorAction Stop
-        Write-Success "  [✓] Removed scheduled task"
+        Write-Success "  [OK] Removed scheduled task"
     } catch {
         Write-Warning "  [!] Could not remove scheduled task: $($_.Exception.Message)"
     }
@@ -306,7 +306,7 @@ $scriptDir = Split-Path $scriptPath -Parent
 if (Test-Path $scriptPath) {
     try {
         Remove-Item $scriptPath -Force -ErrorAction Stop
-        Write-Success "  [✓] Removed auto-configuration script"
+        Write-Success "  [OK] Removed auto-configuration script"
     } catch {
         Write-Warning "  [!] Could not remove script file"
     }
@@ -315,7 +315,7 @@ if (Test-Path $scriptPath) {
 if (Test-Path $scriptDir) {
     try {
         Remove-Item $scriptDir -Force -Recurse -ErrorAction Stop
-        Write-Success "  [✓] Removed script directory"
+        Write-Success "  [OK] Removed script directory"
     } catch {
         Write-Warning "  [!] Could not remove script directory"
     }
@@ -343,18 +343,18 @@ foreach ($hive in $loadedHives) {
 
 # Summary
 Write-Info "`n" + "="*70
-Write-Success "`n✓ ANIMATION SUPPRESSION SUCCESSFULLY REVERSED!"
+Write-Success "`nOK ANIMATION SUPPRESSION SUCCESSFULLY REVERSED!"
 Write-Info "="*70
 
-Write-Host "`n📋 SUMMARY:" -ForegroundColor Cyan
-Write-Host "  ✓ System-wide registry keys removed"
-Write-Host "  ✓ Per-user settings reverted: $revertedUsers profile(s)"
-Write-Host "  ✓ Services restored: $restoredCount"
-Write-Host "  ✓ Boot configuration restored"
-Write-Host "  ✓ Scheduled task removed"
-Write-Host "  ✓ Auto-configuration script removed"
+Write-Host "`n SUMMARY:" -ForegroundColor Cyan
+Write-Host "  OK System-wide registry keys removed"
+Write-Host "  OK Per-user settings reverted: $revertedUsers profile(s)"
+Write-Host "  OK Services restored: $restoredCount"
+Write-Host "  OK Boot configuration restored"
+Write-Host "  OK Scheduled task removed"
+Write-Host "  OK Auto-configuration script removed"
 
-Write-Warning "`n⚠️  NEXT STEPS:"
+Write-Warning "`n  NEXT STEPS:"
 Write-Host "  1. Restart your computer for all changes to take effect"
 Write-Host "  2. Windows will restore default animations"
 Write-Host "  3. Welcome screen and profile animations will return"

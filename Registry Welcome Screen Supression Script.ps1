@@ -57,13 +57,34 @@ function Set-RegValue {
         [string]$Type = "DWord",
         [switch]$Suppress
     )
-    
+
     try {
-        if (-not (Test-Path $Path)) {
-            New-Item -Path $Path -Force | Out-Null
+        if ($Path -match '^HKU:\\([^\\]+)(\\(.*))?$') {
+            # Custom HKU: PSDrive does not reliably create deeply-nested keys
+            # via New-Item -Force, so create the keys with the raw .NET API instead.
+            $sid = $Matches[1]
+            $subPath = $Matches[3]
+
+            $userHive = [Microsoft.Win32.Registry]::Users.OpenSubKey($sid, $true)
+            if (-not $userHive) { throw "Could not open loaded hive for SID $sid" }
+
+            try {
+                $key = if ($subPath) { $userHive.CreateSubKey($subPath) } else { $userHive }
+                if (-not $key) { throw "Could not create/open subkey '$subPath'" }
+
+                $regType = [Microsoft.Win32.RegistryValueKind]::$Type
+                $key.SetValue($Name, $Value, $regType)
+                if ($subPath) { $key.Close() }
+            } finally {
+                $userHive.Close()
+            }
+        } else {
+            if (-not (Test-Path $Path)) {
+                New-Item -Path $Path -Force | Out-Null
+            }
+            New-ItemProperty -Path $Path -Name $Name -Value $Value -PropertyType $Type -Force | Out-Null
         }
-        New-ItemProperty -Path $Path -Name $Name -Value $Value -PropertyType $Type -Force | Out-Null
-        if (-not $Suppress) { Write-Success "  [✓] $Name = $Value" }
+        if (-not $Suppress) { Write-Success "  [OK] $Name = $Value" }
         return $true
     } catch {
         if (-not $Suppress) { Write-Warning "  [!] $Name - $($_.Exception.Message)" }
@@ -231,7 +252,7 @@ foreach ($sid in $allSIDs) {
     # Disable Aero Shake - Universal
     Set-RegValue $explorerAdv "DisallowShaking" 1 -Suppress
     
-    Write-Success "  [✓] Configured $displayName"
+    Write-Success "  [OK] Configured $displayName"
 }
 
 #endregion
@@ -259,7 +280,7 @@ foreach ($svc in $servicesToDisable.Keys) {
                 Stop-Service -Name $svc -Force -ErrorAction SilentlyContinue
             }
             Set-Service -Name $svc -StartupType Disabled -ErrorAction Stop
-            Write-Success "  [✓] Disabled: $($servicesToDisable[$svc])"
+            Write-Success "  [OK] Disabled: $($servicesToDisable[$svc])"
             $disabledCount++
         }
     } catch {
@@ -269,14 +290,14 @@ foreach ($svc in $servicesToDisable.Keys) {
 if ($disabledCount -eq 0) {
     Write-Info "  [i] No optional services found to disable"
 } else {
-    Write-Success "  [✓] Successfully disabled $disabledCount service(s)"
+    Write-Success "  [OK] Successfully disabled $disabledCount service(s)"
 }
 
 # Boot configuration - Universal
 Write-Info "`n[14] Boot Configuration"
 try {
     bcdedit /set bootux disabled | Out-Null
-    Write-Success "  [✓] Disabled boot graphics"
+    Write-Success "  [OK] Disabled boot graphics"
 } catch {
     Write-Warning "  Could not modify boot configuration"
 }
@@ -311,36 +332,36 @@ foreach ($hive in $loadedHives) {
 }
 
 # Summary
-Write-Info "`n" + "="*70
-Write-Success "`n✓ UNIVERSAL SUPPRESSION COMPLETE!"
-Write-Info "="*70
+Write-Info ("`n" + ("=" * 70))
+Write-Success "`nUNIVERSAL SUPPRESSION COMPLETE!"
+Write-Info ("=" * 70)
 
-Write-Host "`n📋 CONFIGURATION SUMMARY:" -ForegroundColor Cyan
-Write-Host "  ✓ ALL registry keys are edition-agnostic"
-Write-Host "  ✓ Works identically on: Home, Pro, Enterprise, Education, IoT"
-Write-Host "  ✓ System-wide suppression: Applied"
-Write-Host "  ✓ User profiles configured: $($allSIDs.Count)"
-Write-Host "  ✓ Boot optimization: Applied"
-Write-Host "  ✓ Services optimized: Applied"
+Write-Host "`nCONFIGURATION SUMMARY:" -ForegroundColor Cyan
+Write-Host "  - ALL registry keys are edition-agnostic"
+Write-Host "  - Works identically on: Home, Pro, Enterprise, Education, IoT"
+Write-Host "  - System-wide suppression: Applied"
+Write-Host "  - User profiles configured: $($allSIDs.Count)"
+Write-Host "  - Boot optimization: Applied"
+Write-Host "  - Services optimized: Applied"
 
-Write-Host "`n💡 WHAT TO EXPECT:" -ForegroundColor Green
-Write-Host "  • No profile picture animation"
-Write-Host "  • No username display animation"
-Write-Host "  • No 'Welcome', 'Hi', or status messages"
-Write-Host "  • Minimal/no spinning wheel"
-Write-Host "  • Direct boot to desktop shell"
+Write-Host "`nWHAT TO EXPECT:" -ForegroundColor Green
+Write-Host "  - No profile picture animation"
+Write-Host "  - No username display animation"
+Write-Host "  - No 'Welcome', 'Hi', or status messages"
+Write-Host "  - Minimal/no spinning wheel"
+Write-Host "  - Direct boot to desktop shell"
 
-Write-Warning "`n⚠️  IMPORTANT NOTES:"
-Write-Host "  • Extremely fast SSDs may show brief (<100ms) wheel flash"
-Write-Host "  • This is GPU/kernel handoff timing, not a configuration issue"
-Write-Host "  • All user-controllable animations are suppressed"
-Write-Host "  • Restart required for full effect"
+Write-Warning "`nIMPORTANT NOTES:"
+Write-Host "  - Extremely fast SSDs may show brief (<100ms) wheel flash"
+Write-Host "  - This is GPU/kernel handoff timing, not a configuration issue"
+Write-Host "  - All user-controllable animations are suppressed"
+Write-Host "  - Restart required for full effect"
 
-Write-Success "`n✅ TESTED ON:"
-Write-Host "  • Windows 10 Home, Pro, Enterprise (1809+)"
-Write-Host "  • Windows 11 Home, Pro, Enterprise (21H2+)"
+Write-Success "`nTESTED ON:"
+# Write-Host "  - Windows 10 Home, Pro, Enterprise (1809+)" - not yet test on anything below Win11 25H2
+Write-Host "  - Windows 11 Home, Pro, Enterprise (25H2+)"
 
-Write-Info "`n" + "="*70
+Write-Info ("`n" + ("=" * 70))
 
 $restart = Read-Host "`nRestart computer now to apply changes? (Y/N)"
 if ($restart -eq 'Y') {
@@ -348,6 +369,6 @@ if ($restart -eq 'Y') {
     Start-Sleep -Seconds 10
     Restart-Computer -Force
 } else {
-    Write-Warning "`nRestart your computer manually for all changes to take effect."
-    Write-Info "You can re-run this script anytime - it's safe to execute multiple times."
+    Write-Warning "Restart your computer manually for all changes to take effect."
+    Write-Info "You can re-run this script anytime - it is safe to execute multiple times."
 }

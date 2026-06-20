@@ -38,7 +38,7 @@ Write-Info "[1] Creating installation directory..."
 if (-not (Test-Path $installPath)) {
     New-Item -Path $installPath -ItemType Directory -Force | Out-Null
 }
-Write-Success "  [✓] Directory: $installPath"
+Write-Success "  [OK] Directory: $installPath"
 
 # Create the C# overlay program source
 Write-Info "`n[2] Creating black screen overlay program..."
@@ -195,7 +195,7 @@ foreach ($path in $frameworkPaths) {
 }
 
 if ($cscPath) {
-    Write-Success "  [✓] Using csc.exe: $cscPath"
+    Write-Success "  [OK] Using csc.exe: $cscPath"
     Write-Info "  Compiling overlay executable..."
     
     # Compile with csc.exe for better error handling
@@ -214,12 +214,12 @@ if ($cscPath) {
     $compileOutput = & $cscPath $compileArgs 2>&1
     
     if ($LASTEXITCODE -ne 0) {
-        Write-Failure "  [✗] Compilation failed:"
+        Write-Failure "  [X] Compilation failed:"
         Write-Host $compileOutput -ForegroundColor Red
         exit 1
     }
     
-    Write-Success "  [✓] Compilation successful using csc.exe"
+    Write-Success "  [OK] Compilation successful using csc.exe"
 } else {
     # Fallback to Add-Type
     Write-Warning "  [!] csc.exe not found, using Add-Type fallback"
@@ -233,19 +233,19 @@ if ($cscPath) {
             'System.Linq'
         ) -OutputAssembly $exePath -OutputType WindowsApplication -ErrorAction Stop
         
-        Write-Success "  [✓] Compilation successful using Add-Type"
+        Write-Success "  [OK] Compilation successful using Add-Type"
     } catch {
-        Write-Failure "  [✗] Failed to compile overlay program: $($_.Exception.Message)"
+        Write-Failure "  [X] Failed to compile overlay program: $($_.Exception.Message)"
         exit 1
     }
 }
 
 if (-not (Test-Path $exePath)) {
-    Write-Failure "  [✗] Executable was not created!"
+    Write-Failure "  [X] Executable was not created!"
     exit 1
 }
 
-Write-Success "  [✓] Overlay program created: $exePath"
+Write-Success "  [OK] Overlay program created: $exePath"
 
 # Set file permissions (only SYSTEM and Admins)
 Write-Info "`n[3] Setting security permissions..."
@@ -264,7 +264,7 @@ try {
     $acl.SetAccessRule($systemRule)
     Set-Acl $exePath $acl
     
-    Write-Success "  [✓] Security permissions configured"
+    Write-Success "  [OK] Security permissions configured"
 } catch {
     Write-Warning "  [!] Could not set permissions: $($_.Exception.Message)"
 }
@@ -312,12 +312,12 @@ try {
         -Settings $settings `
         -Force | Out-Null
     
-    Write-Success "  [✓] Scheduled task created: $taskPath$taskName"
+    Write-Success "  [OK] Scheduled task created: $taskPath$taskName"
     Write-Info "      Priority: Highest (0)"
     Write-Info "      Battery: Will run on battery power"
     Write-Info "      Restart: Auto-restart on failure (3 attempts)"
 } catch {
-    Write-Failure "  [✗] Failed to create scheduled task: $($_.Exception.Message)"
+    Write-Failure "  [X] Failed to create scheduled task: $($_.Exception.Message)"
     exit 1
 }
 
@@ -353,21 +353,21 @@ foreach ($key in $suppressionKeys) {
     }
 }
 
-Write-Success "  [✓] Applied $appliedCount registry tweaks"
+Write-Success "  [OK] Applied $appliedCount registry tweaks"
 
 # Summary
 Write-Info "`n" + "="*70
-Write-Success "`n✓ BLACK SCREEN OVERLAY INSTALLED SUCCESSFULLY!"
+Write-Success "`nOK BLACK SCREEN OVERLAY INSTALLED SUCCESSFULLY!"
 Write-Info "="*70
 
-Write-Host "`n📋 WHAT WAS INSTALLED:" -ForegroundColor Cyan
-Write-Host "  ✓ C# source code: $csPath"
-Write-Host "  ✓ Overlay executable: $exePath"
-Write-Host "  ✓ Scheduled task: Runs at system startup (highest priority)"
-Write-Host "  ✓ Registry tweaks: Core animation suppression applied"
-Write-Host "  ✓ Security: SYSTEM-level execution with highest priority"
+Write-Host "`n WHAT WAS INSTALLED:" -ForegroundColor Cyan
+Write-Host "  OK C# source code: $csPath"
+Write-Host "  OK Overlay executable: $exePath"
+Write-Host "  OK Scheduled task: Runs at system startup (highest priority)"
+Write-Host "  OK Registry tweaks: Core animation suppression applied"
+Write-Host "  OK Security: SYSTEM-level execution with highest priority"
 
-Write-Host "`n💡 HOW IT WORKS:" -ForegroundColor Green
+Write-Host "`n HOW IT WORKS:" -ForegroundColor Green
 Write-Host "  1. At boot, black overlay launches before LogonUI"
 Write-Host "  2. Covers ALL screens with solid black window (multi-monitor aware)"
 Write-Host "  3. Uses Rectangle.Union for proper multi-monitor coverage"
@@ -377,19 +377,19 @@ Write-Host "  6. Waits 1000ms after shell detected (slow system support)"
 Write-Host "  7. Dismisses itself gracefully"
 Write-Host "  8. Result: Completely black transition to desktop"
 
-Write-Host "`n🎯 WHAT YOU'LL SEE:" -ForegroundColor Green
+Write-Host "`n WHAT YOU'LL SEE:" -ForegroundColor Green
 Write-Host "  • Windows logo during boot (normal)"
 Write-Host "  • Solid black screen (instead of animations)"
 Write-Host "  • Your desktop appears smoothly"
 Write-Host "  • NO profile picture, username, spinning wheel, or status text"
 
-Write-Host "`n🖥️  MULTI-MONITOR SUPPORT:" -ForegroundColor Green
+Write-Host "`n  MULTI-MONITOR SUPPORT:" -ForegroundColor Green
 Write-Host "  • Covers horizontal screen layouts"
 Write-Host "  • Covers vertical screen layouts"
 Write-Host "  • Covers mixed/irregular layouts"
 Write-Host "  • Uses Rectangle.Union for proper bounds calculation"
 
-Write-Warning "`n⚠️  IMPORTANT NOTES:"
+Write-Warning "`n  IMPORTANT NOTES:"
 Write-Host "  • Overlay has 10-second timeout (safety mechanism)"
 Write-Host "  • 1000ms delay after explorer.exe for slow systems"
 Write-Host "  • Auto-restart on failure (3 attempts)"
@@ -397,7 +397,7 @@ Write-Host "  • Works with auto-login and password-protected accounts"
 Write-Host "  • Battery-friendly (runs on laptop battery)"
 Write-Host "  • Restart required to see it in action"
 
-Write-Success "`n✅ ADVANTAGES:"
+Write-Success "`n ADVANTAGES:"
 Write-Host "  • Compiled with csc.exe for better compatibility"
 Write-Host "  • Fallback to Add-Type if csc.exe unavailable"
 Write-Host "  • No system file modifications"
@@ -406,7 +406,7 @@ Write-Host "  • Update-proof (survives all Windows Updates)"
 Write-Host "  • Fully reversible (use uninstall script)"
 Write-Host "  • Zero performance impact"
 
-Write-Info "`n📝 TO UNINSTALL:"
+Write-Info "`n TO UNINSTALL:"
 Write-Host "  Run the companion uninstall script to completely remove"
 Write-Host "  all components and revert registry changes."
 
